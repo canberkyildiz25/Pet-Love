@@ -1,0 +1,207 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 48px;
+  background: var(--white);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  gap: 1px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.heart { width: 20px; height: 20px; margin: 0 1px; }
+
+.nav { display: flex; gap: 8px; flex: 1; justify-content: center; }
+
+.navLink {
+  padding: 8px 22px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.navLink:hover    { border-color: var(--yellow); background: var(--yellow-light); }
+.navLinkActive    { border-color: var(--yellow); background: var(--yellow-light); }
+
+.auth { display: flex; gap: 10px; flex-shrink: 0; }
+
+.btnFilled {
+  padding: 10px 24px; border-radius: var(--radius-pill);
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px;
+  text-decoration: none; display: inline-flex; align-items: center;
+  background: var(--yellow); color: var(--white); border: none;
+  box-shadow: 0 4px 16px rgba(245,192,48,0.4);
+}
+
+.btnOutline {
+  padding: 10px 24px; border-radius: var(--radius-pill);
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px;
+  text-decoration: none; display: inline-flex; align-items: center;
+  background: transparent; color: var(--yellow); border: 1.5px solid var(--yellow);
+}
+
+.userArea { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--yellow-light); border: 2px solid var(--yellow);
+  display: flex; align-items: center; justify-content: center; color: var(--yellow);
+}
+
+.avatar svg { width: 20px; height: 20px; }
+.userName { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  padding: 36px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px;
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ── Friend Card ── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+.cardLeft {
+  flex-shrink: 0;
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo2 {
+  width: 66px;
+  height: 66px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.cardBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.hoursBadge {
+  background: var(--yellow-light);
+  color: var(--yellow);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.infoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoList li {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoLabel {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.infoLink {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.infoLink:hover { color: var(--yellow); }
+
+.infoValue { color: var(--muted); }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .main { padding: 24px 20px; }
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .navbar { padding: 14px 20px; flex-wrap: wrap; }
+  .nav { order: 3; width: 100%; flex-wrap: wrap; justify-content: flex-start; }
+}

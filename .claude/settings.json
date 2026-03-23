@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:/Users/İntertek/Desktop/Yeni klasör/pet-love/backend\")",
+      "Bash(npm init:*)",
+      "Bash(mongod --version)",
+      "Bash(mongosh --version)",
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"\"email\"\":\"\"test@test.com\"\",\"\"password\"\":\"\"123456\"\"}')",
+      "Bash(node seed.js)",
+      "Bash(node -e \":*)",
+      "Bash(node seedNews.js)",
+      "Bash(node seedFriends.js)",
+      "Bash(node seedAllPets.js)"
+    ]
+  }
+}
