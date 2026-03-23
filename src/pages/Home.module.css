@@ -1,0 +1,82 @@
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 24px 32px 32px;
+  background: var(--bg);
+}
+
+/* ── Yellow hero card ── */
+.heroCard {
+  background: var(--yellow);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 52px 56px 52px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.heroText {
+  flex: 1;
+}
+
+.headline {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.accent {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.heroDesc {
+  max-width: 240px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+
+/* ── Hero image ── */
+.imageWrap {
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.heroImg {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.imgPlaceholder {
+  width: 100%;
+  height: 420px;
+  background: linear-gradient(135deg, #f0e0a0, #e8c84a);
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 16px;
+  }
+
+  .heroCard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px 28px;
+  }
+
+  .heroDesc {
+    max-width: 100%;
+  }
+
+  .heroImg {
+    height: 260px;
+  }
+}
