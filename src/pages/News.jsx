@@ -89,7 +89,7 @@ export default function News() {
     try {
       const params = new URLSearchParams({ page: pg })
       if (search) params.set('search', search)
-      const res  = await fetch(`http://localhost:5000/api/news?${params}`)
+      const res  = await fetch(`https://pet-love-uoce.onrender.com/api/news?${params}`)
       const data = await res.json()
       setNews(data.news)
       setPages(data.pages)

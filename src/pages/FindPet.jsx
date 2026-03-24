@@ -227,7 +227,7 @@ export default function FindPet() {
       if (location)           params.set('location', location)
       if (tag)                params.set('tag', tag)
 
-      const res  = await fetch(`http://localhost:5000/api/pets?${params}`)
+      const res  = await fetch(`https://pet-love-uoce.onrender.com/api/pets?${params}`)
       const data = await res.json()
       setPets(data.pets)
       setPages(data.pages)
