@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import styles from './Landing.module.css'
+import homeHero from '../assets/images/home-hero.png'
 
 export default function Landing() {
   const [imgError, setImgError] = useState(false)
@@ -72,7 +73,7 @@ export default function Landing() {
         <section className={styles.imageWrap}>
           {!imgError ? (
             <img
-              src="/src/assets/images/home-hero.png"
+              src={homeHero}
               alt="Pet love"
               className={styles.heroImg}
               onError={() => setImgError(true)}
