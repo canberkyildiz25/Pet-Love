@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import styles from './Home.module.css'
+import homeHero from '../assets/images/home-hero.png'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export default function Home() {
         <section className={styles.imageWrap}>
           {!imgError ? (
             <img
-              src="/src/assets/images/home-hero.png"
+              src={homeHero}
               alt="Pet love"
               className={styles.heroImg}
               onError={() => setImgError(true)}
