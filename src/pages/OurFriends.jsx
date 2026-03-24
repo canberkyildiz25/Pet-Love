@@ -67,7 +67,7 @@ export default function OurFriends() {
 
   useEffect(() => {
     setLoading(true)
-    fetch('http://localhost:5000/api/friends')
+    fetch('https://pet-love-uoce.onrender.com/api/friends')
       .then(r => r.json())
       .then(data => setFriends(data))
       .catch(() => setFriends([]))

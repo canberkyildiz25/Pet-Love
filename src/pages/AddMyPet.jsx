@@ -66,7 +66,7 @@ export default function AddMyPet() {
     setLoading(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('http://localhost:5000/api/pets', {
+      const res = await fetch('https://pet-love-uoce.onrender.com/api/pets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
