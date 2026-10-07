@@ -1,0 +1,450 @@
+/* The other pages: the lists of notices, the guides, the account, the small print. */
+
+@layer components {
+  /* ---------- Finding a notice ---------- */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-ctl);
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease;
+  }
+  .tabs a:active {
+    background: var(--wash);
+  }
+  .tabs a[aria-current='page'] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .tabs__n {
+    font-family: var(--font-cond);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .tabs a[aria-current='page'] .tabs__n {
+    color: inherit;
+    opacity: 0.75;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tabs a:not([aria-current='page']):hover {
+      border-color: var(--edge);
+      background: var(--wash);
+    }
+  }
+  .filters {
+    display: grid;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .filters__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: end;
+  }
+  @media (min-width: 36rem) {
+    .filters__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .filters__row .field:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 62rem) {
+    .filters__row {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 1fr) auto;
+    }
+    .filters__row .field:first-child {
+      grid-column: auto;
+    }
+  }
+  .count {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    min-height: 2.75rem;
+    margin-block: 1rem 1.25rem;
+    color: var(--ink-2);
+  }
+  .empty {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+    max-width: 34rem;
+    padding-block: clamp(2rem, 6vw, 4rem);
+  }
+  .empty h2 {
+    font-size: var(--t-h2);
+  }
+  .empty p {
+    color: var(--ink-2);
+  }
+  .empty .acts {
+    margin-top: 0.5rem;
+  }
+
+  /* ---------- Writing: a guide, the about page ---------- */
+  .guide-head {
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .guide-head__when {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--ink-2);
+  }
+  .guide-head h1 {
+    max-width: 16ch;
+    font-size: var(--t-hero);
+    line-height: 0.96;
+  }
+  .guide-head p {
+    margin-top: 1.25rem;
+    max-width: 36rem;
+    font-size: var(--t-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .prose {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 42rem;
+    font-size: 1.125rem;
+    line-height: 1.62;
+  }
+  .prose h2 {
+    margin-top: 1.5rem;
+    font-size: var(--t-h2);
+    line-height: 1.02;
+  }
+  .prose h3 {
+    font-size: var(--t-h3);
+    line-height: 1.1;
+  }
+  .prose ul,
+  .prose ol {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .prose ul > li,
+  .prose ol > li {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  .prose ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.72em;
+    width: 0.625rem;
+    height: 2px;
+    background: var(--edge);
+  }
+  .prose ol {
+    counter-reset: step;
+  }
+  .prose ol > li {
+    counter-increment: step;
+  }
+  .prose ol > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    font-family: var(--font-cond);
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+  .prose__list {
+    display: grid;
+    gap: 0.75rem;
+  }
+  /* a measured number: the figure, what it measures, where it was measured */
+  .fig {
+    display: grid;
+    gap: 0.5rem;
+    margin-block: 0.75rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-radius: var(--r-plate);
+    background: var(--board);
+    color: var(--flap-ink);
+  }
+  .fig strong {
+    font-family: var(--font-cond);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+  }
+  .fig p {
+    max-width: 32rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+  .fig cite {
+    font-style: normal;
+    color: var(--board-2);
+  }
+  .sources {
+    display: grid;
+    gap: 1rem;
+    max-width: 42rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .sources h2 {
+    font-size: var(--t-h3);
+  }
+  .sources ol {
+    display: grid;
+    gap: 1rem;
+  }
+  .sources li {
+    display: grid;
+    gap: 0.125rem;
+    max-width: 36rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .sources a {
+    justify-self: start;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .next {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 42rem;
+    margin-top: clamp(2rem, 5vw, 3rem);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--r-plate);
+    background: var(--wash);
+    text-decoration: none;
+  }
+  .next span {
+    color: var(--ink-2);
+  }
+  .next strong {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+  .next svg {
+    flex: none;
+    transition: transform 200ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .next:hover svg {
+      transform: translateX(0.25rem);
+    }
+  }
+  .next:active {
+    background: color-mix(in oklab, var(--wash) 88%, var(--ink));
+  }
+
+  /* the four signals, spelled out */
+  .key {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .key > div {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .key dt {
+    display: flex;
+  }
+  .key dd {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  @media (min-width: 36rem) {
+    .key > div {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: baseline;
+    }
+  }
+
+  /* ---------- Credits ---------- */
+  .credits {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .credits li {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0.25rem 1rem;
+    align-items: center;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .credits__photo {
+    grid-row: span 2;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-chip);
+    background: var(--wash);
+  }
+  .credits__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .credits a {
+    overflow-wrap: anywhere;
+  }
+  .credits__by {
+    font-size: 0.9688rem;
+    color: var(--ink-2);
+  }
+  @media (min-width: 52rem) {
+    .credits li {
+      grid-template-columns: 4rem minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .credits__photo {
+      grid-row: auto;
+    }
+  }
+
+  /* ---------- Signing in, and your own page ---------- */
+  .auth {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .panel {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 44rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--r-plate);
+    background: var(--wash);
+  }
+  .panel h2 {
+    font-size: var(--t-h3);
+    line-height: 1.1;
+  }
+  .panel p {
+    max-width: 34rem;
+    color: var(--ink-2);
+  }
+  .panel .btn {
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+  @media (min-width: 56rem) {
+    .auth {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    }
+  }
+  .mine {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .mine > li {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    align-items: center;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .mine__photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-photo);
+    background: var(--wash);
+  }
+  .mine__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mine h3 {
+    font-size: 1.5rem;
+    line-height: 1.05;
+  }
+  .mine__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-top: 0.5rem;
+    color: var(--ink-2);
+  }
+  .mine__acts {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  @media (min-width: 56rem) {
+    .mine > li {
+      grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+    }
+    .mine__acts {
+      grid-column: auto;
+    }
+  }
+  .me-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+
+  /* ---------- Not here ---------- */
+  .lost-page {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    padding-block: clamp(3rem, 9vw, 7rem);
+  }
+  .lost-page h1 {
+    max-width: 14ch;
+    font-size: var(--t-hero);
+    line-height: 0.96;
+  }
+  .lost-page p {
+    max-width: 34rem;
+    font-size: var(--t-lede);
+    color: var(--ink-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .next svg {
+    transition: none;
+  }
+}

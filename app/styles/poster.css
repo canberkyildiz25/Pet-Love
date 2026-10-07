@@ -1,0 +1,297 @@
+/* The poster: an A4 sheet. Every length on it is a share of the sheet's own
+   width (1cqw is 2.1 mm on paper), so it is the same sheet at any size. It is
+   white with black lettering in both themes, because paper is. */
+
+@layer components {
+  .a4 {
+    container-type: inline-size;
+    width: 100%;
+    aspect-ratio: 210 / 297;
+    background: var(--sheet);
+    color: var(--sheet-ink);
+    box-shadow: var(--shadow);
+  }
+  .poster {
+    display: grid;
+    grid-template-rows: auto 35cqw minmax(0, 1fr) auto;
+    height: 100%;
+    overflow: hidden;
+    font-size: 2.7cqw;
+    line-height: 1.32;
+  }
+  .poster__band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3cqw;
+    padding: 2.4cqw 5cqw 2cqw;
+    background: var(--sig);
+    color: var(--on-sig);
+  }
+  .poster__word {
+    font-family: var(--font-cond);
+    font-weight: 700;
+    font-size: 21cqw;
+    line-height: 0.82;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .poster[data-long] .poster__word {
+    font-size: 12.6cqw;
+    line-height: 1;
+  }
+  .poster__kind {
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: 3.4cqw;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .poster__photo {
+    overflow: hidden;
+    background: var(--sheet);
+  }
+  .poster__photo img,
+  .poster__photo .nophoto {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .poster__body {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    min-height: 0;
+    padding: 3.2cqw 5cqw 2.4cqw;
+  }
+  .poster__name {
+    font-size: 10cqw;
+    line-height: 0.92;
+    letter-spacing: -0.012em;
+    overflow-wrap: normal;
+  }
+  /* an animal nobody has a name for is called by what it looks like, which is longer */
+  .poster__name[data-plain] {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 7.2cqw;
+    line-height: 0.98;
+  }
+  .poster__facts {
+    margin-top: 1cqw;
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: 3.5cqw;
+    line-height: 1.15;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .poster__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20cqw;
+    gap: 4cqw;
+    align-items: start;
+    margin-top: 2.4cqw;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .poster__list {
+    display: grid;
+    gap: 1.5cqw;
+  }
+  .poster__list dt {
+    font-family: var(--font-cond);
+    font-weight: 700;
+    font-size: 2.4cqw;
+    line-height: 1.2;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .poster__list dd {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-weight: 500;
+    font-size: 2.85cqw;
+    line-height: 1.24;
+  }
+  /* the marks are the part worth the room */
+  .poster__list div:last-child dd {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+  .poster__reach {
+    display: grid;
+    gap: 1.2cqw;
+  }
+  .qr {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .poster__reach p {
+    font-size: 2.3cqw;
+    line-height: 1.25;
+  }
+  .poster__reach strong {
+    display: block;
+    font-family: var(--font-cond);
+    font-weight: 700;
+    font-size: 3.6cqw;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  .poster__ask {
+    margin-top: 1.6cqw;
+    padding-top: 1.6cqw;
+    border-top: 0.5cqw solid var(--sheet-ink);
+    font-weight: 600;
+    font-size: 2.85cqw;
+    line-height: 1.24;
+  }
+  /* the tabs: nine strips to tear off, read with the head tilted */
+  .poster__tabs {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    height: 18cqw;
+    border-top: 0.3cqw dashed var(--sheet-ink);
+  }
+  .poster__tabs li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4cqw;
+    padding: 1.4cqw 0;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-cond);
+    font-weight: 500;
+    font-size: 2.15cqw;
+    line-height: 1.12;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .poster__tabs li + li {
+    border-right: 0.3cqw dashed var(--sheet-ink);
+  }
+  .poster__tabs b {
+    font-weight: 700;
+  }
+
+  /* short of colour: the band in outline, the word in black */
+  .poster[data-thrifty] .poster__band {
+    background: var(--sheet);
+    color: var(--sheet-ink);
+    border-bottom: 0.9cqw solid var(--sheet-ink);
+  }
+  .poster[data-thrifty] .poster__photo img {
+    filter: grayscale(1) contrast(1.08);
+  }
+
+  /* ---------- The poster's page on screen ---------- */
+  .print {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-block: clamp(1rem, 3vw, 2.5rem) 0;
+  }
+  .print__sheet {
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+  .print__side h1 {
+    font-size: var(--t-h1);
+  }
+  .print__side > p {
+    margin-top: 1rem;
+    max-width: 30rem;
+    color: var(--ink-2);
+  }
+  .print__side .acts {
+    margin-bottom: 0.5rem;
+  }
+  .print__more {
+    padding-top: 0;
+  }
+  .print__tips {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    max-width: 30rem;
+  }
+  .print__tips {
+    counter-reset: tip;
+  }
+  .print__tips li {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    counter-increment: tip;
+  }
+  .print__tips li::before {
+    content: counter(tip);
+    font-family: var(--font-cond);
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+  /* beside the sheet on a wide screen; on a narrow one the button comes first, then the sheet, then the advice */
+  @media (min-width: 60rem) {
+    .print {
+      grid-template-columns: minmax(0, 34rem) minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      align-items: start;
+      row-gap: 0;
+    }
+    .print__sheet {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      margin: 0;
+    }
+    .print__side {
+      grid-column: 2;
+    }
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  .print {
+    display: block;
+    padding: 0;
+  }
+  .print__side,
+  .toasts {
+    display: none;
+  }
+  .wrap:has(> .print) {
+    max-width: none;
+    padding: 0;
+  }
+  .print__sheet {
+    max-width: none;
+  }
+  .a4 {
+    width: 210mm;
+    height: 297mm;
+    aspect-ratio: auto;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .poster {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,75 @@
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { PHOTOS_FETCHED, SAMPLE_PHOTOS } from '@/lib/photos';
+import { SEED, pathOf } from '@/lib/seed';
+import { called } from '@/lib/types';
+
+export const metadata: Metadata = {
+  title: 'Photo credits',
+  description: 'Who took each photograph on Yuva, and under which licence it is used.',
+  alternates: { canonical: '/credits/' },
+};
+
+const fetched = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${PHOTOS_FETCHED}T00:00:00Z`));
+
+export default function Credits() {
+  return (
+    <main id="main" className="wrap">
+      <header className="page-head">
+        <h1>Photo credits</h1>
+        <p>
+          Every photograph on the example notices is from Wikimedia Commons, fetched on {fetched} and made smaller. None of the animals in them is lost, and none of the photographers has anything to do
+          with this site.
+        </p>
+      </header>
+
+      <ul className="credits">
+        {SAMPLE_PHOTOS.map((photo) => {
+          const notice = SEED.find((entry) => entry.photo?.src === photo.src);
+          return (
+            <li key={photo.key}>
+              <div className="credits__photo">
+                <Image src={photo.src} alt="" width={photo.w} height={photo.h} sizes="4rem" quality={80} style={{ objectPosition: `${photo.fx}% ${photo.fy}%` }} />
+              </div>
+              <div>
+                <a className="link" href={photo.page} rel="noopener">
+                  {photo.title.replace(/\.(jpe?g|png|webp)$/i, '')}
+                </a>
+                <p className="credits__by">
+                  {photo.by} ·{' '}
+                  {photo.licenceUrl ? (
+                    <a className="link" href={photo.licenceUrl} rel="noopener license">
+                      {photo.licence}
+                    </a>
+                  ) : (
+                    photo.licence
+                  )}
+                </p>
+              </div>
+              {notice && (
+                <p className="credits__by">
+                  Used on{' '}
+                  <Link className="link" href={pathOf(notice.id)}>
+                    {notice.id}, {called(notice)}
+                  </Link>
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="prose section">
+        <h2>Everything else</h2>
+        <p>
+          The typeface is Barlow, in three widths, by Jeremy Tribby, under the SIL Open Font License. The icons are from Phosphor, under the MIT licence. The code on the posters is drawn with
+          qrcode-generator by Kazuhiko Arase, also MIT. QR Code is a registered trademark of Denso Wave.
+        </p>
+        <p>
+          The studies and organisations the guides lean on are listed at the foot of each <Link className="link" href="/guides/">guide</Link>.
+        </p>
+      </div>
+    </main>
+  );
+}

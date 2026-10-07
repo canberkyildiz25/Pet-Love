@@ -1,0 +1,410 @@
+/* A notice: as a card in a list, and as its own page. */
+
+@layer components {
+  /* ---------- A photograph, or the mark that stands in for one ---------- */
+  .nophoto {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--wash);
+    color: var(--edge);
+  }
+
+  /* ---------- The card ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+  .card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    /* in a row of cards the short ones are stretched: the spare height goes below, not between */
+    align-content: start;
+  }
+  .card__photo {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-photo);
+    background: var(--wash);
+  }
+  .card__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card__photo .chip {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    height: 1.5rem;
+    padding-inline: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .card__text {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+    padding-top: 0.125rem;
+  }
+  .card__where {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+  .card__title {
+    font-size: 1.5rem;
+    line-height: 1.05;
+  }
+  .card__title a {
+    text-decoration: none;
+  }
+  /* the whole card is the link's target */
+  .card__title a::after {
+    content: '';
+    position: absolute;
+    inset: -0.5rem;
+    border-radius: var(--r-photo);
+  }
+  .card__title a:focus-visible {
+    outline: none;
+  }
+  .card__title a:active,
+  .homes h3 a:active {
+    opacity: 0.7;
+  }
+  .card__title a:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .card__sum {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    font-size: 0.9688rem;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover .card__title a {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.16em;
+      text-decoration-color: var(--sig);
+    }
+  }
+  @media (min-width: 34rem) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem 1.25rem;
+    }
+    .card {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+    .card__photo {
+      aspect-ratio: 10 / 11;
+    }
+    .card__photo .chip {
+      left: 0.75rem;
+      top: 0.75rem;
+      height: 1.75rem;
+      padding-inline: 0.75rem;
+      font-size: 0.9375rem;
+    }
+  }
+  @media (min-width: 52rem) {
+    .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 70rem) {
+    .cards {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------- The notice's own page ---------- */
+  .notice {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    padding-top: clamp(1rem, 3vw, 2.5rem);
+  }
+  .notice__photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-plate);
+    background: var(--wash);
+    aspect-ratio: 4 / 3.4;
+  }
+  .notice__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .notice__credit {
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .notice__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 0.75rem;
+  }
+  .notice__ref {
+    color: var(--ink-2);
+  }
+  .notice h1 {
+    margin-top: 1rem;
+    font-size: clamp(2.75rem, 6vw, 4.75rem);
+    line-height: 0.96;
+  }
+  .notice__kind {
+    margin-top: 0.75rem;
+    font-size: var(--t-lede);
+    color: var(--ink-2);
+  }
+  .notice__text {
+    margin-top: 1.5rem;
+    max-width: 36rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .facts {
+    display: grid;
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+  .facts > div {
+    display: grid;
+    gap: 0.125rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .facts dt {
+    color: var(--ink-2);
+  }
+  .facts dd {
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+  .facts dd small {
+    display: block;
+    font-size: 1rem;
+    color: var(--ink-2);
+  }
+  @media (min-width: 30rem) {
+    .facts > div {
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: baseline;
+    }
+  }
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .acts .btn {
+    flex: 1 1 auto;
+  }
+  @media (min-width: 30rem) {
+    .acts .btn {
+      flex: 0 0 auto;
+    }
+  }
+  .btn[aria-pressed='true'] {
+    background: var(--wash);
+  }
+  @media (min-width: 60rem) {
+    .notice {
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+      align-items: start;
+    }
+    .notice__side {
+      position: sticky;
+      top: calc(var(--plate) + 1.5rem);
+    }
+  }
+
+  /* a plate that says one thing about the notice, in its signal */
+  .state {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--r-photo);
+    background: color-mix(in oklab, var(--sig) 14%, var(--paper));
+  }
+  .state strong {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-h3);
+    line-height: 1.1;
+  }
+  .state p {
+    max-width: 36rem;
+  }
+  .state .acts {
+    margin-top: 0.5rem;
+  }
+
+  /* who to reach */
+  .reach {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-photo);
+    background: var(--raised);
+  }
+  .reach h2 {
+    font-size: var(--t-h3);
+    line-height: 1.1;
+  }
+  .reach p {
+    max-width: 34rem;
+    color: var(--ink-2);
+  }
+  .reach .btn {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+
+  /* ---------- Sightings: where they have been seen, latest first ---------- */
+  .trail {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    max-width: 36rem;
+  }
+  .trail::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--line);
+  }
+  .trail li {
+    position: relative;
+    display: grid;
+    gap: 0.25rem;
+    padding-left: 2rem;
+  }
+  .trail li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--edge);
+  }
+  .trail li:first-child::before {
+    border-color: var(--sig);
+    background: var(--sig);
+  }
+  .trail__when {
+    color: var(--ink-2);
+  }
+  .trail__where {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3125rem;
+    line-height: 1.15;
+  }
+  .trail__by {
+    font-size: 0.9688rem;
+    color: var(--ink-2);
+  }
+  .trail-empty {
+    max-width: 36rem;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Home again: the notices that are closed ---------- */
+  .homes {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .homes li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .homes__photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-photo);
+    background: var(--wash);
+  }
+  .homes__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .homes h3 {
+    font-size: 1.5rem;
+    line-height: 1.05;
+  }
+  .homes h3 a {
+    text-decoration: none;
+  }
+  .homes h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .homes__after {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+    color: var(--sig-ink);
+  }
+  .homes__note {
+    grid-column: 1 / -1;
+    max-width: 38rem;
+    color: var(--ink-2);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .homes li:hover h3 a {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.16em;
+      text-decoration-color: var(--sig);
+    }
+  }
+  @media (min-width: 52rem) {
+    .homes li {
+      grid-template-columns: 4.5rem minmax(0, 17rem) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .homes__note {
+      grid-column: auto;
+    }
+  }
+}
+
