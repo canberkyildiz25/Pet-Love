@@ -1,135 +1,207 @@
-/* What is on every page: the plate at the top, the sheet it opens on a small
-   screen, and the foot. */
+/* What is on every page: the masthead, the menu it opens on a small screen,
+   and the back cover. */
+
+:root {
+  /* a hairline on the red back cover */
+  --on-red-line: oklch(98.6% 0.006 60 / 0.34);
+}
 
 @layer components {
-  /* ---------- The plate: a sign fixed above the page ---------- */
-  .plate-wrap {
-    position: sticky;
-    top: 0.75rem;
-    z-index: 40;
-    padding-inline: var(--gutter);
-    margin-top: 0.75rem;
-    pointer-events: none;
-  }
-  .plate {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    max-width: calc(var(--page) - var(--gutter) * 2);
-    min-height: 3.5rem;
-    margin-inline: auto;
-    padding: 0.5rem 0.5rem 0.5rem 1rem;
-    border-radius: 0.875rem;
-    background: var(--board);
-    color: var(--flap-ink);
-    box-shadow: var(--shadow);
-    pointer-events: auto;
-  }
   .wordmark {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
     min-height: 2.75rem;
-    margin-right: 0.75rem;
-    font-family: var(--font-cond);
-    font-weight: 700;
-    font-size: 1.625rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4375rem;
     line-height: 1;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.26em;
+    /* the tracking leaves a gap after the last letter: take it back, so the word sits where it is put */
+    margin-right: -0.26em;
+    text-transform: uppercase;
     text-decoration: none;
   }
-  .wordmark svg {
-    flex: none;
+  .wordmark:active {
+    opacity: 0.7;
   }
-  .plate__links {
+
+  /* ---------- The masthead ---------- */
+  /* a marker at the head of the page: while any of it is in view, the masthead is lettering only */
+  .mast-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+  /* on the front page it is as tall as the film, less the masthead itself */
+  body:has(.cover) .mast-top {
+    height: calc(100svh - var(--mast));
+  }
+  .mast {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    height: var(--mast);
+    color: var(--ink);
+    transition:
+      background-color 420ms ease,
+      color 420ms ease,
+      box-shadow 420ms ease;
+  }
+  .mast[data-raised] {
+    background: var(--paper);
+    box-shadow: 0 1px 0 var(--line);
+  }
+  body:has(.cover) .mast:not([data-raised]) {
+    color: var(--on-film);
+  }
+  .mast__in {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5rem;
+    height: 100%;
+  }
+  .mast__links {
     display: none;
     align-items: center;
-    gap: 0.125rem;
+    gap: clamp(1.25rem, 2.2vw, 2.25rem);
   }
-  .plate__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    padding-inline: 0.75rem;
-    border-radius: var(--r-ctl);
-    font-weight: 500;
-    font-size: 1rem;
-    white-space: nowrap;
-    text-decoration: none;
-    transition: background-color 140ms ease;
-  }
-  .plate__link[aria-current='page'],
-  .plate__link:active {
-    background: var(--flap);
-  }
-  .plate__n {
-    font-family: var(--font-cond);
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--board-2);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .plate__link:hover {
-      background: var(--flap);
-    }
-  }
-  .plate__end {
+  .mast__end {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    margin-left: auto;
+    justify-content: flex-end;
+    gap: clamp(1rem, 2vw, 2rem);
   }
-  .plate__me {
-    display: none;
-  }
-  .plate__post {
+  .mast__links a,
+  .mast__me {
     display: inline-flex;
     align-items: center;
+    /* a short word is still a whole finger wide */
+    min-width: 2.75rem;
     min-height: 2.75rem;
-    padding-inline: 1rem;
-    border-radius: var(--r-ctl);
-    background: var(--flap-ink);
-    color: var(--board);
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  /* a rule is drawn under a link from its first letter */
+  .mast__links a > span:first-child,
+  .mast__me > span,
+  .back__links a > span {
+    padding-block: 0.25rem;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 380ms var(--ease-out);
+  }
+  .mast__links a[aria-current='page'] > span:first-child {
+    background-size: 100% 1px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mast__links a:hover > span:first-child,
+    .mast__me:hover > span,
+    .back__links a:hover > span {
+      background-size: 100% 1px;
+    }
+  }
+  .mast__links a:active,
+  .mast__me:active,
+  .mast__menu:active {
+    opacity: 0.65;
+  }
+  /* how many of that kind are open, set like a note number */
+  .mast__links sup {
+    position: relative;
+    top: -0.55em;
+    margin-left: 0.25rem;
+    font-size: 0.6875rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    vertical-align: baseline;
+    opacity: 0.74;
+  }
+  .mast__me {
+    display: none;
+  }
+  .mast__post {
+    display: none;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    border: 1px solid currentColor;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1;
     white-space: nowrap;
     text-decoration: none;
     transition:
-      transform 140ms var(--ease-out),
-      background-color 140ms ease;
+      transform 160ms var(--ease-out),
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
   }
-  .plate__post:active {
-    transform: scale(0.97);
-  }
-  /* on the narrowest phones the button says less, so that it still fits beside the name */
-  .plate__rest {
-    display: none;
-  }
-  @media (min-width: 23.5rem) {
-    .plate__rest {
-      display: inline;
-    }
+  .mast__post:active {
+    transform: scale(0.98);
   }
   @media (hover: hover) and (pointer: fine) {
-    .plate__post:hover {
-      background: color-mix(in oklab, var(--flap-ink) 88%, var(--board));
+    .mast__post:hover {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+    }
+    body:has(.cover) .mast:not([data-raised]) .mast__post:hover {
+      border-color: var(--on-film);
+      background: var(--on-film);
+      color: var(--film-shade);
     }
   }
-  @media (min-width: 62rem) {
-    .plate__links {
-      display: flex;
-    }
-    .plate__me {
+  .mast__menu {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+  }
+  @media (min-width: 36rem) {
+    .mast__post {
       display: inline-flex;
     }
-    .plate .plate__menu {
+  }
+  @media (min-width: 64rem) {
+    .mast__in {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+    /* the name is first in the page and in the middle of the bar */
+    .mast .wordmark {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+    }
+    .mast__links {
+      display: flex;
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .mast__end {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    .mast__me {
+      display: inline-flex;
+    }
+    .mast__end .mast__menu {
       display: none;
     }
   }
 
-  /* ---------- The sheet: the same links, full size, on a small screen ---------- */
+  /* ---------- The menu: the same links at full size, on a small screen ---------- */
   .sheet {
+    position: fixed;
+    inset: 0;
     width: 100%;
     max-width: none;
     height: 100%;
@@ -137,193 +209,204 @@
     margin: 0;
     padding: 0;
     border: 0;
-    background: var(--board);
-    color: var(--flap-ink);
-    /* the wrapper it sits in lets clicks through; the sheet must not */
-    pointer-events: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--paper);
+    color: var(--ink);
     opacity: 0;
-    transform: translate3d(0, -0.5rem, 0);
     transition:
-      opacity 200ms var(--ease-out),
-      transform 200ms var(--ease-out),
-      overlay 200ms allow-discrete,
-      display 200ms allow-discrete;
+      opacity 280ms var(--ease-out),
+      overlay 280ms allow-discrete,
+      display 280ms allow-discrete;
   }
   .sheet[open] {
     opacity: 1;
-    transform: none;
   }
   @starting-style {
     .sheet[open] {
       opacity: 0;
-      transform: translate3d(0, -0.5rem, 0);
     }
   }
   .sheet::backdrop {
-    background: var(--board);
+    background: transparent;
   }
   .sheet__in {
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    height: 100%;
-    padding: 1.25rem var(--gutter) 2rem;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100%;
+    padding-inline: var(--gutter);
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
   .sheet__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: var(--mast);
   }
   .sheet__links {
     display: grid;
     align-content: center;
-    gap: 0.25rem;
+    padding-block: 2rem;
   }
   .sheet__links a {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-height: 3.5rem;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-block: 0.25rem;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(2rem, 9vw, 2.75rem);
-    line-height: 1;
+    font-weight: 500;
+    font-size: clamp(2.75rem, 12.5vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    overflow-wrap: anywhere;
     text-decoration: none;
+    transition:
+      opacity 460ms var(--ease-slow),
+      transform 460ms var(--ease-slow);
   }
-  .sheet__links .plate__n {
-    font-size: 1.25rem;
+  .sheet__links a:nth-child(2) {
+    transition-delay: 40ms;
   }
-  .sheet__links .dot {
-    width: 0.75rem;
-    height: 0.75rem;
+  .sheet__links a:nth-child(3) {
+    transition-delay: 80ms;
+  }
+  .sheet__links a:nth-child(4) {
+    transition-delay: 120ms;
+  }
+  @starting-style {
+    .sheet[open] .sheet__links a {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0);
+    }
+  }
+  .sheet__links a[aria-current='page'] {
+    color: var(--red-ink);
+  }
+  .sheet__links a:active {
+    opacity: 0.65;
+  }
+  .sheet__links sup {
+    margin-top: 0.5em;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-2);
   }
   .sheet__foot {
     display: grid;
-    gap: 0.75rem;
+    justify-items: start;
+    gap: 0.5rem;
   }
-  .sheet__foot .plate__post {
-    justify-content: center;
-    min-height: 3.25rem;
-    font-size: 1.125rem;
-  }
-  .sheet__foot a:not(.plate__post) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.75rem;
-    font-weight: 500;
-    color: var(--board-2);
+  .sheet__foot .btn {
+    width: 100%;
   }
 
-  /* ---------- The foot ---------- */
-  .foot {
-    margin-top: clamp(2rem, 5vw, 4rem);
-    border-top: 1px solid var(--line);
+  /* ---------- The back cover ---------- */
+  .back {
+    --focus: var(--on-red);
+    background: var(--red);
+    color: var(--on-red);
   }
-  .foot__in {
-    display: grid;
-    gap: 2rem;
-    padding-block: clamp(2.5rem, 5vw, 4rem) 2rem;
+  .back ::selection {
+    background: var(--on-red);
+    color: var(--red);
   }
-  .foot__say {
-    max-width: 30rem;
+  .back__call {
+    padding-block: var(--air) clamp(4rem, 9vw, 8rem);
   }
-  .foot__say strong {
-    display: block;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--t-h3);
-    line-height: 1.1;
+  .back__call h2 {
+    font-size: clamp(3.5rem, 10.6vw, 13.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.032em;
   }
-  .foot__say p {
-    margin-top: 0.75rem;
-    color: var(--ink-2);
+  .back__call p {
+    margin-top: clamp(1.75rem, 3vw, 2.75rem);
+    max-width: 29rem;
+    font-size: var(--t-lede);
+    line-height: 1.5;
   }
-  .foot__links {
+  .back__acts {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem 1.5rem;
+    align-items: center;
+    gap: 0.75rem 2rem;
+    margin-top: 2.25rem;
   }
-  .foot__links a {
+  .back__base {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: 2.5rem 1.75rem;
+    /* a rule as wide as the lettering, not as the page */
+    background: linear-gradient(var(--on-red-line), var(--on-red-line)) center top / calc(100% - var(--gutter) * 2) 1px no-repeat;
+  }
+  .back__say {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 27rem;
+  }
+  .back__say p:not(.wordmark) {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .back__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    align-content: start;
+    gap: 0 clamp(2rem, 5vw, 4.5rem);
+  }
+  .back__links a {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    font-weight: 500;
+    font-size: 0.9375rem;
     white-space: nowrap;
     text-decoration: none;
   }
-  @media (hover: hover) and (pointer: fine) {
-    .foot__links a:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.2em;
-    }
+  .back__links a:active,
+  .back__theme:active {
+    opacity: 0.65;
   }
-  .foot__base {
+  .back__end {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-    font-size: 0.9375rem;
-    color: var(--ink-2);
+    gap: 0.25rem 2rem;
+    font-size: 0.875rem;
   }
-  .foot__theme {
+  .back__theme {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     min-height: 2.75rem;
-    padding-inline: 0.75rem;
-    margin-right: -0.75rem;
-    border-radius: var(--r-ctl);
-    color: var(--ink);
-    font-weight: 500;
     cursor: pointer;
   }
-  @media (hover: hover) and (pointer: fine) {
-    .foot__theme:hover {
-      background: var(--wash);
+  @media (min-width: 56rem) {
+    .back__base {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     }
-  }
-  .foot__theme:active,
-  .foot__links a:active {
-    opacity: 0.7;
-  }
-  .sheet__links a:active {
-    opacity: 0.7;
-  }
-  @media (min-width: 52rem) {
-    .foot__in {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: start;
+    .back__links {
+      justify-self: end;
     }
-    .foot__base {
+    .back__end {
       grid-column: 1 / -1;
-    }
-    .foot__links {
-      display: grid;
-      grid-template-columns: repeat(2, auto);
-      gap: 0 3rem;
     }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .mast__post:active {
+    transform: none;
+  }
   .sheet,
-  .sheet[open] {
-    transform: none;
-    transition-duration: 120ms;
-  }
-  .plate__post:active {
-    transform: none;
-  }
-}
-
-@media print {
-  .plate-wrap,
-  .foot,
-  .skip-link {
-    display: none;
+  .sheet__links a,
+  .mast,
+  .mast__links a > span:first-child,
+  .mast__me > span,
+  .back__links a > span {
+    transition: none;
   }
 }

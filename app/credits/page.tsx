@@ -6,8 +6,8 @@ import { SEED, pathOf } from '@/lib/seed';
 import { called } from '@/lib/types';
 
 export const metadata: Metadata = {
-  title: 'Photo credits',
-  description: 'Who took each photograph on Yuva, and under which licence it is used.',
+  title: 'Credits',
+  description: 'Who made the film and took each photograph on Yuva, and under which licence each is used.',
   alternates: { canonical: '/credits/' },
 };
 
@@ -17,12 +17,28 @@ export default function Credits() {
   return (
     <main id="main" className="wrap">
       <header className="page-head">
-        <h1>Photo credits</h1>
+        <h1>Credits</h1>
         <p>
           Every photograph on the example notices is from Wikimedia Commons, fetched on {fetched} and made smaller. None of the animals in them is lost, and none of the photographers has anything to do
           with this site.
         </p>
       </header>
+
+      <div className="prose credits-film">
+        <h2>The film</h2>
+        <p>
+          The film on the front page is by Eudes cs, from{' '}
+          <a className="link" href="https://www.pexels.com/video/adorable-cat-relaxing-in-urban-setting-29448609/" rel="noopener">
+            Pexels
+          </a>
+          , used under the{' '}
+          <a className="link" href="https://www.pexels.com/license/" rel="noopener license">
+            Pexels licence
+          </a>
+          . It is cut to eleven seconds and made smaller, and it has no sound. The cat in it is not lost either.
+        </p>
+        <h2>The photographs</h2>
+      </div>
 
       <ul className="credits">
         {SAMPLE_PHOTOS.map((photo) => {
@@ -63,8 +79,9 @@ export default function Credits() {
       <div className="prose section">
         <h2>Everything else</h2>
         <p>
-          The typeface is Barlow, in three widths, by Jeremy Tribby, under the SIL Open Font License. The icons are from Phosphor, under the MIT licence. The code on the posters is drawn with
-          qrcode-generator by Kazuhiko Arase, also MIT. QR Code is a registered trademark of Denso Wave.
+          The typefaces are Cormorant Garamond by Christian Thalmann and Hanken Grotesk by Alfredo Marco Pradil, both under the SIL Open Font License. The icons are from Phosphor, under the MIT
+          licence. The page is carried under a mouse wheel by Lenis, from darkroom.engineering, also MIT. The code on the posters is drawn with qrcode-generator by Kazuhiko Arase, MIT again. QR Code is a
+          registered trademark of Denso Wave.
         </p>
         <p>
           The studies and organisations the guides lean on are listed at the foot of each <Link className="link" href="/guides/">guide</Link>.

@@ -3,7 +3,7 @@
 import { ArrowLeft, BookmarkSimple, Eye, Phone, Printer, ShareNetwork } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, type FormEvent } from 'react';
+import { useState, ViewTransition, type FormEvent } from 'react';
 import { matches, useNotice, useNotices, useNow } from '@/lib/notices';
 import { pathOf } from '@/lib/seed';
 import { Refused, remove, setHome, toggleSaved, useStore } from '@/lib/store';
@@ -12,7 +12,7 @@ import { called, signalOf, SIGNALS, type Notice } from '@/lib/types';
 import { them, they } from '@/lib/words';
 import { Field, Refusal } from './Field';
 import { Modal } from './Modal';
-import { headline, NoticeCard, photoAlt } from './NoticeCard';
+import { headline, NoticeCard, photoAlt, photoName } from './NoticeCard';
 import { PetPhoto } from './PetPhoto';
 import { SightingForm } from './SightingForm';
 import { toast } from './Toasts';
@@ -56,7 +56,7 @@ function Sheet({ notice }: { notice: Notice }) {
   const signal = signalOf(notice);
   const name = called(notice);
   const mine = Boolean(me && notice.owner === me.id);
-  const facts = [notice.name ? notice.title : null, notice.sex === 'unknown' ? null : notice.sex, notice.age].filter(Boolean).join(' · ');
+  const facts = [notice.name ? notice.title : null, notice.sex === 'unknown' ? null : notice.sex, notice.age].filter(Boolean).join(', ');
   const trail = [...notice.sightings].sort((a, b) => newest(a, b, now || 1));
   const alike = matches(notice, all, now || 1);
   const phone = notice.contact.phone;
@@ -91,14 +91,16 @@ function Sheet({ notice }: { notice: Notice }) {
   return (
     <>
       <Link className="crumb" href={`/${notice.kind}/`}>
-        <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+        <ArrowLeft size={18} aria-hidden="true" />
         {BACK[notice.kind]}
       </Link>
 
       <article className="notice" data-signal={signal}>
         <div className="notice__side">
           <div className="notice__photo">
-            <PetPhoto photo={notice.photo} alt={photoAlt(notice)} sizes="(min-width: 60rem) 40rem, 94vw" lead />
+            <ViewTransition name={photoName(notice)}>
+              <PetPhoto photo={notice.photo} alt={photoAlt(notice)} sizes="(min-width: 60rem) 42vw, 94vw" lead />
+            </ViewTransition>
           </div>
           {notice.photo?.credit && (
             <p className="notice__credit">
@@ -175,7 +177,7 @@ function Sheet({ notice }: { notice: Notice }) {
           <div className="acts">
             {notice.kind === 'lost' && !notice.home && (
               <button type="button" className="btn btn--signal" onClick={() => setSeeing(true)}>
-                <Eye size={20} weight="bold" aria-hidden="true" />I have seen {them(notice)}
+                <Eye size={20} aria-hidden="true" />I have seen {them(notice)}
               </button>
             )}
             {!notice.home && (

@@ -1,6 +1,6 @@
 'use client';
 
-import { Printer } from '@phosphor-icons/react';
+import { ArrowRight } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { Poster } from '@/components/Poster';
 import { useNotice, useNow } from '@/lib/notices';
@@ -13,34 +13,23 @@ export function PosterBand({ id }: { id: string }) {
   const now = useNow();
   if (!notice) return null;
   return (
-    <div className="posterband">
-      <div className="posterband__sheet" data-in>
-        <Poster notice={notice} now={now} link={`${SITE}${pathOf(notice.id)}`} sizes="(min-width: 52rem) 24rem, 80vw" />
+    <div className="wrap printed">
+      <div className="printed__sheet" data-in>
+        <Poster notice={notice} now={now} link={`${SITE}${pathOf(notice.id)}`} sizes="(min-width: 60rem) 30rem, 86vw" />
       </div>
-      <div className="posterband__say">
+      <div className="printed__say">
         <h2>A notice that leaves the screen</h2>
         <p>
-          The people most likely to have seen a lost pet are the ones who live on its street, and most of them will never open this site. So every notice prints as an A4 sheet for a door, a shop
-          window or a lamp post.
+          The people most likely to have seen a lost pet live on its street, and most of them will never open this site. So every notice prints as one A4 sheet: what the animal looks like in the
+          largest type, a code that opens the notice, and nine tabs to tear off.
         </p>
-        <ul className="posterband__parts">
-          <li>
-            <strong>What they look like, first.</strong> A stranger cannot use a name. They can use brindle, red collar, white patch.
-          </li>
-          <li>
-            <strong>A code that opens the notice.</strong> Whoever scans it can report where and when, and the sighting joins the trail.
-          </li>
-          <li>
-            <strong>Nine tabs to tear off.</strong> For the person who will see the dog tomorrow and has no pen today.
-          </li>
-        </ul>
-        <p className="posterband__acts">
-          <Link className="btn btn--line" href={`${pathOf(notice.id)}poster/`}>
-            <Printer size={20} aria-hidden="true" />
+        <p className="printed__acts">
+          <Link className="btn" href={`${pathOf(notice.id)}poster/`}>
             Open this poster
           </Link>
-          <Link className="link" href="/guides/a-poster-that-gets-read/">
-            What makes a poster work
+          <Link className="more" href="/guides/a-poster-that-gets-read/">
+            <span>What makes a poster work</span>
+            <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </p>
       </div>

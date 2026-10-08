@@ -248,10 +248,7 @@ export function PostWizard() {
                 <label key={entry.key} className="choice" data-signal={entry.key}>
                   <input type="radio" name="kind" value={entry.key} checked={kind === entry.key} onChange={() => setKind(entry.key)} />
                   <span>
-                    <strong>
-                      <i className="dot" aria-hidden="true" />
-                      {entry.title}
-                    </strong>
+                    <strong>{entry.title}</strong>
                     <small>{entry.says}</small>
                   </span>
                 </label>
@@ -432,14 +429,14 @@ export function PostWizard() {
       <div className="form__acts">
         {step > 0 && (
           <button type="button" className="btn btn--line" onClick={() => go(step - 1)}>
-            <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+            <ArrowLeft size={18} aria-hidden="true" />
             Back
           </button>
         )}
         {step < 2 ? (
           <button type="submit" className="btn">
             Next
-            <ArrowRight size={18} weight="bold" aria-hidden="true" />
+            <ArrowRight size={18} aria-hidden="true" />
           </button>
         ) : (
           <button type="submit" className="btn" disabled={busy} data-busy={busy ? '' : undefined}>

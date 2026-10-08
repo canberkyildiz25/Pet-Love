@@ -8,8 +8,8 @@ This started as PetLove, a course project: a listings site on a stock design, wi
 
 ## What it does
 
-- **The board.** The newest notices on a split-flap sign, one line turning over every few seconds. It is real text and real links, it pauses on hover, on focus and on its own button, and it stands still when the visitor asks for less motion.
-- **Four signals.** Red is lost, blue is found, amber wants a home, green is home again. Each colour means one thing everywhere on the site, and every chip also carries its word.
+- **The front page.** It opens on a short film of a cat in a collar who looks away and then straight at you. It plays once and holds, it can be paused, and where less motion is asked for its last frame is shown instead. Under it, one sentence counts what is on the board, and the newest notices are an index of names beside a photograph that changes with the name being looked at.
+- **One colour.** Red belongs to a lost notice, as it does on a street poster. Found, home wanted and home again say what they are in words.
 - **Sightings.** Anybody can say "I have seen them" on a lost notice, with no account: a place, a time and a first name. The sightings build a trail, latest first.
 - **The poster.** Every notice prints as one A4 sheet: what the animal looks like in the largest type, a code that opens the notice, and nine tabs to tear off. There is a version that saves coloured ink.
 - **Could this be them?** A lost notice is shown beside the open found notices for the same kind of animal, nearest first, and the other way round. The board does not decide. It puts them where one person can see both.
@@ -54,7 +54,7 @@ npm run photos                 # fetch the example photographs again from Wikime
 
 ## How it is put together
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Zustand.
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Zustand, and Lenis for the weight of the mouse wheel. The scroll-linked motion is CSS scroll timelines, and going from one page to the next uses view transitions; a browser without either shows the same pages standing still.
 
 ```
 app/
@@ -65,13 +65,15 @@ app/
   guides/                   the guides
   api/                      status, auth, notices, sightings
   styles/                   one stylesheet per part of the site
-components/                 Board, NoticeCard, NoticeView, Poster, PostWizard, Finder ...
+components/                 Masthead, NoticeCard, NoticeView, Poster, PostWizard, Finder ...
+components/home/            the front page's parts: Cover, Opening, Index, Fact, PosterBand, HomeAgain
 lib/
   seed.ts                   the example notices
   guides.ts                 the guides and their sources
   store.ts                  what the browser keeps, and the one place pages change it
   time.ts                   every clock on the site is Istanbul time
   server/                   the store behind the API: MongoDB, memory, or none
+public/film/                the cover film, wide and upright, with its first and last frames
 scripts/photos.mjs          fetches the photographs and records who took each one
 design.md                   the look, and the rules behind it
 ```
@@ -94,22 +96,26 @@ Without a database none of this is in play, and the account in the browser is a 
 I checked the built site with scripts that drive a real browser:
 
 - every page at seven widths from 320 to 1920 pixels: no sideways scroll, one main heading, heading order, targets a finger can hit, no control that wraps to two lines;
+- the front page: the film plays, pauses, plays once and holds; a phone is given the upright cut; the headline stays clear of the cat; the index shows the photograph of the name under the pointer;
 - the flows: searching, a sighting, posting as a guest with a photograph, closing, reopening, taking down and undoing, an account kept in the browser;
 - accessibility rules (axe) on the main pages in light and dark;
-- the page with less motion, with scripts turned off, and as a printed sheet, where all 29 example posters fit their A4 page;
+- the page with less motion (the film does not start and its last frame is shown, nothing waits to arrive, the wheel is the browser's own), with scripts turned off, and as a printed sheet, where all 29 example posters fit their A4 page;
 - the API and the pages on top of it against the in-memory store: who may do what, what is refused and why;
-- the site behind the production security headers.
+- the site behind the production security headers, the film included.
 
 What I did not check:
 
 - **The MongoDB adapter has not been run against a real MongoDB server.** It sits behind the same interface as the in-memory store the tests use, and it is short, but it is untested.
-- **Real phones.** The phone widths are a desktop browser made narrow.
+- **Real phones.** The phone widths are a desktop browser made narrow. A phone that refuses to start a film by itself (an iPhone saving power, for one) shows the photograph and a button to play it; I have not seen that on a real one.
+- **Browsers without scroll timelines.** The scroll-linked motion is written so that the page is whole without it, and I checked that with motion turned off, not in Firefox itself.
 - **Paper.** The poster is checked in the browser's print view, not out of a printer.
 
 ## The example notices
 
 They are examples. The stories are made up, and none of the animals in the photographs is lost. The photographs are real ones from Wikimedia Commons; `data/photos.json` records the photographer and the licence of each, and the site's credits page lists them.
 
-The typeface is Barlow by Jeremy Tribby (SIL Open Font License). The icons are Phosphor (MIT). The code on the posters is drawn with qrcode-generator by Kazuhiko Arase (MIT).
+The film on the front page is by Eudes cs, from [Pexels](https://www.pexels.com/video/adorable-cat-relaxing-in-urban-setting-29448609/), used under the Pexels licence. I cut it to eleven seconds, made an upright version for phones, and took the sound off. The cat in it is not lost either.
+
+The typefaces are Cormorant Garamond by Christian Thalmann and Hanken Grotesk by Alfredo Marco Pradil (both SIL Open Font License). The icons are Phosphor (MIT). The smooth wheel is Lenis by darkroom.engineering (MIT). The code on the posters is drawn with qrcode-generator by Kazuhiko Arase (MIT).
 
 Made by [Canberk Yıldız](https://canberkyildiz.netlify.app).

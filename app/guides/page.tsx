@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Guides() {
   return (
-    <main id="main" className="wrap">
+    <main id="main" className="wrap guides">
       <header className="page-head">
         <h1>Guides</h1>
         <p>What to do, in the order it helps. Every figure comes from a study or an organisation named at the foot of the guide that uses it.</p>

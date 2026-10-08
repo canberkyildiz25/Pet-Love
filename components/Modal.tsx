@@ -31,7 +31,7 @@ export function Modal({ open, onClose, title, children }: { open: boolean; onClo
         <div className="modal__top">
           <h2 id={id}>{title}</h2>
           <button type="button" className="iconbtn" aria-label="Close" onClick={onClose}>
-            <X size={22} weight="bold" aria-hidden="true" />
+            <X size={22} aria-hidden="true" />
           </button>
         </div>
         {open && children}

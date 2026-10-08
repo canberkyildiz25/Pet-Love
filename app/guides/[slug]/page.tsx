@@ -71,12 +71,11 @@ export default async function GuidePage({ params }: PageProps<'/guides/[slug]'>)
       <article data-signal={guide.signal}>
         <header className="guide-head">
           <Link className="crumb" href="/guides/">
-            <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+            <ArrowLeft size={18} aria-hidden="true" />
             Guides
           </Link>
-          <p className="label guide-head__when">
-            <i className="dot" aria-hidden="true" />
-            {guide.when} · {minutes(guide)} min
+          <p className="guide-head__when">
+            {guide.when}, {minutes(guide)} minutes to read
           </p>
           <h1>{guide.title}</h1>
           <p>{guide.lede}</p>
@@ -104,7 +103,7 @@ export default async function GuidePage({ params }: PageProps<'/guides/[slug]'>)
         <span className="label">Next guide</span>
         <strong>
           {next.title}
-          <ArrowRight size={24} weight="bold" aria-hidden="true" />
+          <ArrowRight size={26} aria-hidden="true" />
         </strong>
       </Link>
       <div className="page-foot" />

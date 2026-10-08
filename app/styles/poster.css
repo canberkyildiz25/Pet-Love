@@ -29,23 +29,23 @@
     color: var(--on-sig);
   }
   .poster__word {
-    font-family: var(--font-cond);
-    font-weight: 700;
-    font-size: 21cqw;
-    line-height: 0.82;
-    letter-spacing: 0.02em;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 19cqw;
+    line-height: 0.84;
+    letter-spacing: -0.03em;
     white-space: nowrap;
   }
   .poster[data-long] .poster__word {
-    font-size: 12.6cqw;
-    line-height: 1;
+    font-size: 9.6cqw;
+    line-height: 1.1;
   }
   .poster__kind {
-    font-family: var(--font-cond);
+    font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 3.4cqw;
-    line-height: 1.15;
-    letter-spacing: 0.08em;
+    font-size: 3cqw;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
     text-align: right;
     white-space: nowrap;
   }
@@ -67,9 +67,11 @@
     padding: 3.2cqw 5cqw 2.4cqw;
   }
   .poster__name {
-    font-size: 10cqw;
-    line-height: 0.92;
-    letter-spacing: -0.012em;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 9.4cqw;
+    line-height: 0.94;
+    letter-spacing: -0.032em;
     overflow-wrap: normal;
   }
   /* an animal nobody has a name for is called by what it looks like, which is longer */
@@ -79,15 +81,15 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
-    font-size: 7.2cqw;
-    line-height: 0.98;
+    font-size: 6.6cqw;
+    line-height: 1;
   }
   .poster__facts {
-    margin-top: 1cqw;
-    font-family: var(--font-cond);
+    margin-top: 1.4cqw;
+    font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 3.5cqw;
-    line-height: 1.15;
+    font-size: 3cqw;
+    line-height: 1.2;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
@@ -105,11 +107,11 @@
     gap: 1.5cqw;
   }
   .poster__list dt {
-    font-family: var(--font-cond);
-    font-weight: 700;
-    font-size: 2.4cqw;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 2.2cqw;
     line-height: 1.2;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
   }
   .poster__list dd {
@@ -142,11 +144,11 @@
   }
   .poster__reach strong {
     display: block;
-    font-family: var(--font-cond);
-    font-weight: 700;
-    font-size: 3.6cqw;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 3.4cqw;
     line-height: 1.1;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.01em;
   }
   .poster__ask {
     margin-top: 1.6cqw;
@@ -167,23 +169,23 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.4cqw;
-    padding: 1.4cqw 0;
+    gap: 0.3cqw;
+    padding: 1.2cqw 0;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-family: var(--font-cond);
+    font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 2.15cqw;
-    line-height: 1.12;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
+    font-size: 1.6cqw;
+    line-height: 1.16;
+    /* a long address takes a second line rather than running off the strip */
+    overflow-wrap: anywhere;
     overflow: hidden;
   }
   .poster__tabs li + li {
     border-right: 0.3cqw dashed var(--sheet-ink);
   }
   .poster__tabs b {
-    font-weight: 700;
+    font-weight: 800;
   }
 
   /* short of colour: the band in outline, the word in black */
@@ -200,7 +202,7 @@
   .print {
     display: grid;
     gap: clamp(1.5rem, 4vw, 3rem);
-    padding-block: clamp(1rem, 3vw, 2.5rem) 0;
+    padding-block: clamp(0.75rem, 2vw, 1.75rem) 0;
   }
   .print__sheet {
     width: 100%;
@@ -208,10 +210,12 @@
     margin-inline: auto;
   }
   .print__side h1 {
-    font-size: var(--t-h1);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.026em;
   }
   .print__side > p {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     max-width: 30rem;
     color: var(--ink-2);
   }
@@ -240,14 +244,18 @@
   }
   .print__tips li::before {
     content: counter(tip);
-    font-family: var(--font-cond);
-    font-weight: 700;
-    color: var(--ink-2);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    font-variant-numeric: lining-nums;
+    color: var(--red-ink);
   }
   /* beside the sheet on a wide screen; on a narrow one the button comes first, then the sheet, then the advice */
   @media (min-width: 60rem) {
     .print {
       grid-template-columns: minmax(0, 34rem) minmax(0, 1fr);
+      column-gap: clamp(2.5rem, 6vw, 6rem);
       grid-template-rows: auto minmax(0, 1fr);
       align-items: start;
       row-gap: 0;
@@ -273,7 +281,11 @@
     padding: 0;
   }
   .print__side,
-  .toasts {
+  .toasts,
+  .mast,
+  .mast-top,
+  .back,
+  .skip-link {
     display: none;
   }
   .wrap:has(> .print) {

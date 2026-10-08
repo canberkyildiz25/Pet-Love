@@ -62,8 +62,7 @@ export function Finder({ kind }: { kind: Kind | null }) {
         <nav className="tabs" aria-label="Kind of notice">
           {TABS.map((tab) => (
             <Link key={tab.href} href={tab.href} aria-current={tab.kind === kind ? 'page' : undefined} data-signal={tab.kind ?? undefined}>
-              {tab.kind && <i className="dot" aria-hidden="true" />}
-              {tab.label}
+              <span>{tab.label}</span>
               <span className="tabs__n">
                 <span className="sr-only">, </span>
                 {tab.kind ? counts[tab.kind] : counts.lost + counts.found + counts.adopt}

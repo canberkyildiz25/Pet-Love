@@ -1,150 +1,136 @@
 @import 'tailwindcss';
 
 @import './styles/chrome.css';
-@import './styles/board.css';
 @import './styles/notice.css';
 @import './styles/home.css';
 @import './styles/forms.css';
 @import './styles/pages.css';
 @import './styles/poster.css';
 
-/* Yuva: a public notice board. White enamel, blue-black lettering, and four
-   signal colours that always mean the same four things. The rules are in
-   design.md. */
+/* Yuva is laid out like a large-format magazine: one film, photographs given
+   room, a quiet serif, and a single colour, the red of a collar and of the
+   word LOST on a street poster. The rules are in design.md. */
 
 @theme static {
-  --font-display: var(--font-semi), 'Arial Narrow', sans-serif;
-  --font-cond: var(--font-condensed), 'Arial Narrow', sans-serif;
-  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-display: var(--font-cormorant), 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
 
+  /* a control answering a hand */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* something arriving on the page: quick to start, a long time settling */
+  --ease-slow: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 :root {
-  --paper: oklch(98.6% 0.003 250);
-  /* one step down: a still surface for a field, an empty photograph, a quiet panel */
-  --wash: oklch(96.2% 0.005 250);
-  --raised: oklch(99.6% 0.002 250);
-  --ink: oklch(21% 0.026 258);
-  --ink-2: oklch(44% 0.021 258);
-  --line: oklch(90% 0.006 250);
+  --paper: oklch(98.6% 0.005 55);
+  /* one step down: a still ground for a field, an empty photograph, a quiet panel */
+  --wash: oklch(95.4% 0.006 55);
+  --raised: oklch(99.5% 0.005 55);
+  --ink: oklch(19% 0.01 55);
+  --ink-2: oklch(43% 0.01 55);
+  --line: oklch(88% 0.006 55);
   /* the edge of a control: 3 to 1 against the page */
-  --edge: oklch(60% 0.016 258);
-  --veil: oklch(21% 0.026 258 / 0.42);
-  --shadow: 0 1px 2px oklch(21% 0.026 258 / 0.08), 0 14px 32px -14px oklch(21% 0.026 258 / 0.3);
+  --edge: oklch(57% 0.008 55);
+  --veil: oklch(19% 0.01 55 / 0.5);
+  --shadow: 0 1px 2px oklch(19% 0.01 55 / 0.06), 0 28px 60px -28px oklch(19% 0.01 55 / 0.34);
 
-  /* The board is dark in both themes: it is a sign, and a sign is its own surface. */
-  --board: oklch(20% 0.022 258);
-  --flap: oklch(27.5% 0.02 258);
-  --flap-ink: oklch(96% 0.012 95);
-  --board-2: oklch(74% 0.015 258);
+  /* The one colour. It fills, it carries lettering, and on the page it is lettering itself. */
+  --red: oklch(54.5% 0.21 28);
+  --on-red: oklch(98.6% 0.006 60);
+  --red-ink: oklch(51% 0.2 28);
 
-  /* The four signals. A fill, the lettering that goes on it, and the same
-     signal as lettering on the page. They never mean anything else. */
-  --lost: oklch(56% 0.215 27);
-  --on-lost: oklch(99% 0.005 27);
-  --lost-ink: oklch(50% 0.2 27);
-  --found: oklch(52% 0.17 255);
-  --on-found: oklch(99% 0.005 255);
-  --found-ink: oklch(48% 0.17 255);
-  --adopt: oklch(84% 0.16 88);
-  --on-adopt: oklch(24% 0.04 80);
-  --adopt-ink: oklch(47% 0.11 78);
-  --home: oklch(70% 0.17 150);
-  --on-home: oklch(22% 0.05 150);
-  --home-ink: oklch(44% 0.13 150);
+  /* Lettering over the film, and what is laid under it so that it can be read. */
+  --on-film: oklch(98.6% 0.005 55);
+  --film-shade: oklch(15% 0.012 55);
 
   /* Paper for the printed poster: white with black lettering in both themes. */
   --sheet: oklch(100% 0 0);
-  --sheet-ink: oklch(16% 0.02 258);
+  --sheet-ink: oklch(16% 0.01 55);
 
   --focus: var(--ink);
-  --r-ctl: 0.625rem;
-  --r-chip: 0.375rem;
-  --r-photo: 0.75rem;
-  --r-plate: 1.125rem;
-  --gutter: clamp(1.25rem, 4.4vw, 4rem);
-  --page: 82rem;
-  --plate: 4.75rem;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --page: 100rem;
+  --mast: 4.5rem;
 
-  --t-hero: clamp(3rem, 6.5vw, 6rem);
-  --t-h1: clamp(2.5rem, 4.7vw, 4rem);
-  --t-h2: clamp(1.875rem, 3vw, 2.625rem);
-  --t-h3: 1.5rem;
-  --t-lede: clamp(1.125rem, 1.4vw, 1.3125rem);
+  --t-mega: clamp(3.5rem, min(8.4vw, 16svh), 11rem);
+  --t-h1: clamp(3.25rem, 7.4vw, 7.25rem);
+  --t-h2: clamp(2.375rem, 4.4vw, 4.25rem);
+  --t-h3: clamp(1.625rem, 2vw, 1.9375rem);
+  --t-say: clamp(1.9375rem, 3.7vw, 3.75rem);
+  --t-lede: clamp(1.125rem, 1.3vw, 1.3125rem);
+  /* the air between one part of a page and the next */
+  --air: clamp(5rem, 12vw, 11.5rem);
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: oklch(16% 0.02 258);
-    --wash: oklch(20% 0.022 258);
-    --raised: oklch(22.5% 0.022 258);
-    --ink: oklch(95% 0.008 250);
-    --ink-2: oklch(77% 0.014 255);
-    --line: oklch(28% 0.02 258);
-    --edge: oklch(54% 0.02 258);
-    --veil: oklch(8% 0.015 258 / 0.62);
-    --shadow: 0 1px 2px oklch(8% 0.015 258 / 0.5), 0 14px 32px -14px oklch(8% 0.015 258 / 0.8);
-    --board: oklch(11.5% 0.018 258);
-    --flap: oklch(20% 0.02 258);
-    --lost-ink: oklch(74% 0.16 27);
-    --found-ink: oklch(76% 0.12 255);
-    --adopt-ink: oklch(84% 0.16 88);
-    --home-ink: oklch(78% 0.16 150);
+    --paper: oklch(16.5% 0.006 55);
+    --wash: oklch(20.5% 0.007 55);
+    --raised: oklch(22.5% 0.007 55);
+    --ink: oklch(94.5% 0.006 85);
+    --ink-2: oklch(75% 0.008 75);
+    --line: oklch(29% 0.007 55);
+    --edge: oklch(56% 0.008 55);
+    --veil: oklch(8% 0.006 55 / 0.66);
+    --shadow: 0 1px 2px oklch(8% 0.006 55 / 0.5), 0 28px 60px -28px oklch(8% 0.006 55 / 0.9);
+    --red-ink: oklch(71% 0.17 28);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --paper: oklch(16% 0.02 258);
-  --wash: oklch(20% 0.022 258);
-  --raised: oklch(22.5% 0.022 258);
-  --ink: oklch(95% 0.008 250);
-  --ink-2: oklch(77% 0.014 255);
-  --line: oklch(28% 0.02 258);
-  --edge: oklch(54% 0.02 258);
-  --veil: oklch(8% 0.015 258 / 0.62);
-  --shadow: 0 1px 2px oklch(8% 0.015 258 / 0.5), 0 14px 32px -14px oklch(8% 0.015 258 / 0.8);
-  --board: oklch(11.5% 0.018 258);
-  --flap: oklch(20% 0.02 258);
-  --lost-ink: oklch(74% 0.16 27);
-  --found-ink: oklch(76% 0.12 255);
-  --adopt-ink: oklch(84% 0.16 88);
-  --home-ink: oklch(78% 0.16 150);
+  --paper: oklch(16.5% 0.006 55);
+  --wash: oklch(20.5% 0.007 55);
+  --raised: oklch(22.5% 0.007 55);
+  --ink: oklch(94.5% 0.006 85);
+  --ink-2: oklch(75% 0.008 75);
+  --line: oklch(29% 0.007 55);
+  --edge: oklch(56% 0.008 55);
+  --veil: oklch(8% 0.006 55 / 0.66);
+  --shadow: 0 1px 2px oklch(8% 0.006 55 / 0.5), 0 28px 60px -28px oklch(8% 0.006 55 / 0.9);
+  --red-ink: oklch(71% 0.17 28);
   color-scheme: dark;
 }
 
-/* Anything that belongs to a signal carries its key, and with it the colours. */
+/* What kind of notice a thing belongs to. Only a lost one is given the colour:
+   the others say what they are in words, in ink. */
+[data-signal] {
+  --sig: var(--ink);
+  --on-sig: var(--paper);
+  --sig-ink: var(--ink);
+}
 [data-signal='lost'] {
-  --sig: var(--lost);
-  --on-sig: var(--on-lost);
-  --sig-ink: var(--lost-ink);
-}
-[data-signal='found'] {
-  --sig: var(--found);
-  --on-sig: var(--on-found);
-  --sig-ink: var(--found-ink);
-}
-[data-signal='adopt'] {
-  --sig: var(--adopt);
-  --on-sig: var(--on-adopt);
-  --sig-ink: var(--adopt-ink);
-}
-[data-signal='home'] {
-  --sig: var(--home);
-  --on-sig: var(--on-home);
-  --sig-ink: var(--home-ink);
+  --sig: var(--red);
+  --on-sig: var(--on-red);
+  --sig-ink: var(--red-ink);
 }
 
 @layer base {
   html {
     overflow-x: clip;
-    scroll-padding-top: calc(var(--plate) + 1.5rem);
+    scroll-padding-top: calc(var(--mast) + 1.5rem);
+    /* room for the scroll bar is kept, so that nothing shifts when a dialog takes the bar away */
+    scrollbar-gutter: stable;
     background: var(--paper);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+  /* the wheel is given its weight by a script: the browser's own easing would fight it */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  html.lenis.lenis-stopped {
+    overflow: clip;
+  }
+  /* a dialog is open: the page behind it stays where it is */
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
   body {
     overflow-x: clip;
@@ -153,22 +139,28 @@
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: 1.0625rem;
-    line-height: 1.55;
+    line-height: 1.6;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
+  /* Headings are in the serif, upright, at a weight that holds on a screen. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.018em;
+    font-variant-numeric: lining-nums;
     text-wrap: balance;
     overflow-wrap: anywhere;
     min-width: 0;
+  }
+  h3 {
+    line-height: 1.08;
+    letter-spacing: -0.008em;
   }
   p {
     text-wrap: pretty;
@@ -177,13 +169,12 @@
     color: inherit;
   }
   ::selection {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--red);
+    color: var(--on-red);
   }
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
-    border-radius: 0.25rem;
   }
   dialog {
     color: inherit;
@@ -211,30 +202,29 @@
     top: -4rem;
     z-index: 60;
     padding: 0.75rem 1rem;
-    border-radius: var(--r-ctl);
     background: var(--ink);
     color: var(--paper);
-    font-weight: 600;
+    font-weight: 500;
   }
   .skip-link:focus-visible {
     top: 1rem;
   }
 
-  /* ---------- Lettering in the sign's own voice ---------- */
+  /* ---------- Small lettering ---------- */
+  /* the name of a fact, beside the fact */
   .label {
-    font-family: var(--font-cond);
-    font-weight: 600;
-    font-size: 0.9375rem;
-    line-height: 1.2;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
   .link {
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.22em;
     text-decoration-color: var(--edge);
-    transition: text-decoration-color 140ms ease;
+    transition: text-decoration-color 160ms ease;
   }
   @media (hover: hover) and (pointer: fine) {
     .link:hover {
@@ -244,6 +234,32 @@
   .link:active {
     opacity: 0.7;
   }
+  /* the way on from here: words, a rule under them, an arrow that leans forward */
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .more > span {
+    padding-bottom: 0.125rem;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  }
+  .more svg {
+    flex: none;
+    transition: transform 320ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .more:hover svg {
+      transform: translate3d(0.3125rem, 0, 0);
+    }
+  }
+  .more:active {
+    opacity: 0.7;
+  }
 
   /* ---------- Buttons ---------- */
   .btn {
@@ -251,30 +267,30 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 3rem;
-    padding: 0 1.25rem;
-    border: 1.5px solid var(--ink);
-    border-radius: var(--r-ctl);
+    min-height: 3.25rem;
+    padding: 0 1.75rem;
+    border: 1px solid var(--ink);
     background: var(--ink);
     color: var(--paper);
-    font-weight: 600;
-    font-size: 1.0625rem;
+    font-weight: 500;
+    font-size: 1rem;
     line-height: 1;
+    letter-spacing: 0.005em;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
     transition:
-      transform 140ms var(--ease-out),
-      background-color 140ms ease,
-      border-color 140ms ease,
-      color 140ms ease;
+      transform 160ms var(--ease-out),
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
   }
   .btn:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
   }
   .btn[disabled],
   .btn[aria-disabled='true'] {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
     transform: none;
   }
@@ -286,26 +302,46 @@
     border-color: transparent;
     background: transparent;
     color: var(--ink);
-    padding-inline: 0.75rem;
+    padding-inline: 1rem;
   }
   .btn--small {
     min-height: 2.75rem;
-    padding-inline: 1rem;
-    font-size: 1rem;
+    padding-inline: 1.25rem;
+    font-size: 0.9375rem;
   }
   .btn--signal {
     border-color: var(--sig);
     background: var(--sig);
     color: var(--on-sig);
   }
+  /* on the film, and on the red back cover */
+  .btn--light {
+    border-color: var(--on-film);
+    background: var(--on-film);
+    color: var(--film-shade);
+  }
   @media (hover: hover) and (pointer: fine) {
-    .btn:not(.btn--line, .btn--quiet, .btn--signal, [disabled]):hover {
-      background: color-mix(in oklab, var(--ink) 86%, var(--paper));
-      border-color: color-mix(in oklab, var(--ink) 86%, var(--paper));
+    .btn:not(.btn--line, .btn--quiet, .btn--signal, .btn--light, [disabled]):hover {
+      border-color: var(--red);
+      background: var(--red);
+      color: var(--on-red);
     }
-    .btn--line:not([disabled]):hover,
+    .btn--line:not([disabled]):hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
     .btn--quiet:not([disabled]):hover {
       background: var(--wash);
+    }
+    .btn--signal:not([disabled]):hover {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .btn--light:not([disabled]):hover {
+      border-color: var(--film-shade);
+      background: var(--film-shade);
+      color: var(--on-film);
     }
   }
   .iconbtn {
@@ -313,76 +349,65 @@
     place-items: center;
     width: 2.75rem;
     height: 2.75rem;
-    border-radius: var(--r-ctl);
     color: inherit;
     cursor: pointer;
     transition:
-      transform 140ms var(--ease-out),
-      background-color 140ms ease;
+      transform 160ms var(--ease-out),
+      background-color 160ms ease;
   }
   .iconbtn:active {
     transform: scale(0.94);
   }
   .iconbtn:disabled {
-    opacity: 0.55;
+    opacity: 0.5;
     cursor: not-allowed;
   }
   @media (hover: hover) and (pointer: fine) {
     .iconbtn:hover {
-      background: color-mix(in oklab, currentColor 10%, transparent);
+      background: color-mix(in oklab, currentColor 9%, transparent);
     }
   }
 
-  /* ---------- A signal, as a plate with its word on it ---------- */
+  /* ---------- What kind of notice: a word, in its colour ---------- */
   .chip {
     display: inline-flex;
     align-items: center;
-    height: 1.75rem;
-    padding: 0 0.75rem;
-    border-radius: var(--r-chip);
-    background: var(--sig);
-    color: var(--on-sig);
-    font-family: var(--font-cond);
-    font-weight: 700;
-    font-size: 0.9375rem;
-    line-height: 1;
-    letter-spacing: 0.07em;
+    color: var(--sig-ink);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     white-space: nowrap;
-  }
-  .dot {
-    flex: none;
-    width: 0.5625rem;
-    height: 0.5625rem;
-    border-radius: 50%;
-    background: var(--sig);
   }
 
   /* ---------- Sections ---------- */
   .section {
-    padding-block: clamp(3.5rem, 8vw, 7rem);
+    padding-block: clamp(4rem, 9vw, 8rem) 0;
   }
   .section__head {
     display: grid;
-    gap: 0.75rem;
-    margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+    gap: 1rem;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
   }
   .section__head h2 {
     font-size: var(--t-h2);
   }
   .section__head p {
-    max-width: 38rem;
+    max-width: 36rem;
     color: var(--ink-2);
   }
   .page-head {
-    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+    padding-block: clamp(4rem, 10vw, 9rem) clamp(2.5rem, 5vw, 4.5rem);
   }
   .page-head h1 {
     font-size: var(--t-h1);
+    line-height: 0.94;
+    letter-spacing: -0.024em;
   }
   .page-head p {
-    margin-top: 1rem;
-    max-width: 40rem;
+    margin-top: 1.75rem;
+    max-width: 36rem;
     font-size: var(--t-lede);
     line-height: 1.5;
     color: var(--ink-2);
@@ -392,39 +417,78 @@
     align-items: center;
     gap: 0.5rem;
     min-height: 2.75rem;
-    margin-bottom: 0.25rem;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 500;
+    font-size: 0.9375rem;
     color: var(--ink-2);
     white-space: nowrap;
     text-decoration: none;
   }
+  .crumb svg {
+    transition: transform 320ms var(--ease-out);
+  }
   @media (hover: hover) and (pointer: fine) {
-    .crumb:hover {
-      color: var(--ink);
+    .crumb:hover svg {
+      transform: translate3d(-0.25rem, 0, 0);
     }
   }
   .crumb:active {
     color: var(--ink);
   }
   .page-foot {
-    height: clamp(3rem, 7vw, 6rem);
+    height: var(--air);
   }
 
   /* ---------- Arriving: once, as a thing comes into view ---------- */
   html.live [data-in] {
     opacity: 0;
-    transform: translate3d(0, 0.75rem, 0);
+    transform: translate3d(0, 1.75rem, 0);
     transition:
-      opacity 520ms var(--ease-out),
-      transform 520ms var(--ease-out);
+      opacity 1000ms var(--ease-slow),
+      transform 1000ms var(--ease-slow);
+    transition-delay: calc(var(--i, 0) * 90ms);
   }
   html.live [data-in].is-in {
     opacity: 1;
     transform: none;
   }
+  /* a photograph is uncovered from its foot, and comes to rest as it is */
+  html.live [data-reveal]:not(.is-in) {
+    background: transparent;
+  }
+  html.live [data-reveal] img {
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.14);
+    transition:
+      clip-path 1300ms var(--ease-slow),
+      transform 1700ms var(--ease-slow);
+    transition-delay: calc(var(--i, 0) * 110ms);
+  }
+  html.live [data-reveal].is-in img {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+/* Going from one page to another: the old one fades as the new one arrives,
+   and a notice's photograph travels from its card to its page. It is kept
+   short, because the new page cannot be pressed until it has arrived. */
+::view-transition-group(*) {
+  animation-duration: 380ms;
+  animation-timing-function: var(--ease-slow);
+}
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 260ms;
+  animation-timing-function: ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
   *,
   *::before,
   *::after {
@@ -434,6 +498,10 @@
   .btn:active,
   .iconbtn:active {
     transform: none;
+  }
+  .more svg,
+  .crumb svg {
+    transition: none;
   }
 }
 

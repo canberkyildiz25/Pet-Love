@@ -6,7 +6,7 @@ import { start } from '@/lib/store';
 
 /** Runs once per visit: reads what the browser has kept and asks the server
     how the site is running. Also lets things arrive as they come into view:
-    anything marked data-in gets the class is-in the first time it is on
+    anything marked data-in or data-reveal gets the class is-in the first time it is on
     screen, and keeps it. */
 export function Start() {
   const path = usePathname();
@@ -17,7 +17,7 @@ export function Start() {
 
   useEffect(() => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches || typeof IntersectionObserver === 'undefined') return;
-    const waiting = document.querySelectorAll<HTMLElement>('[data-in]:not(.is-in)');
+    const waiting = document.querySelectorAll<HTMLElement>('[data-in]:not(.is-in), [data-reveal]:not(.is-in)');
     if (!waiting.length) return;
     const observer = new IntersectionObserver(
       (entries) => {

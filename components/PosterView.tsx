@@ -40,14 +40,14 @@ export function PosterView({ id }: { id: string }) {
     <div className="print">
       <div className="print__side">
         <Link className="crumb" href={pathOf(notice.id)}>
-          <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
           Back to the notice
         </Link>
         <h1>The poster</h1>
         <p>One A4 sheet. It prints without the rest of this page, edge to edge: choose no margins in the print window if your printer offers it.</p>
         <div className="acts">
           <button type="button" className="btn" onClick={() => window.print()}>
-            <Printer size={20} weight="bold" aria-hidden="true" />
+            <Printer size={20} aria-hidden="true" />
             Print
           </button>
         </div>

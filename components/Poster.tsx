@@ -102,9 +102,10 @@ export function Poster({ notice, now, link, thrifty = false, sizes = '(min-width
         <ul className="poster__tabs" aria-hidden="true">
           {Array.from({ length: 9 }, (_, index) => (
             <li key={index}>
-              <span>
-                <b>{WORD[notice.kind]}</b> {upper(species)} {notice.id}
-              </span>
+              <b>
+                {WORD[notice.kind]} {upper(species)}
+              </b>
+              <span>{notice.id}</span>
               <span>{tab}</span>
             </li>
           ))}

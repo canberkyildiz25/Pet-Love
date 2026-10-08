@@ -18,12 +18,12 @@ export const SOURCES = {
   },
   weiss: {
     short: 'Weiss, Slater and Lord, 2012',
-    cite: 'Weiss E, Slater M, Lord L. Frequency of Lost Dogs and Cats in the United States and the Methods Used to Locate Them. Animals, 2012; 2(2): 301–315.',
+    cite: 'Weiss E, Slater M, Lord L. Frequency of Lost Dogs and Cats in the United States and the Methods Used to Locate Them. Animals, 2012; 2(2): 301-315.',
     url: 'https://doi.org/10.3390/ani2020301',
   },
   lord: {
     short: 'Lord and others, 2009',
-    cite: 'Lord LK, Ingwersen W, Gray JL, Wintz DJ. Characterization of animals with microchips entering animal shelters. Journal of the American Veterinary Medical Association, 2009; 235(2): 160–167.',
+    cite: 'Lord LK, Ingwersen W, Gray JL, Wintz DJ. Characterization of animals with microchips entering animal shelters. Journal of the American Veterinary Medical Association, 2009; 235(2): 160-167.',
     url: 'https://doi.org/10.2460/javma.235.2.160',
   },
   osu: {

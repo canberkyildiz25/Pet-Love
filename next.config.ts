@@ -10,6 +10,8 @@ const config: NextConfig = {
   turbopack: { root: path.resolve(__dirname) },
   env: { NEXT_PUBLIC_SITE_URL: site },
   trailingSlash: true,
+  // a notice's photograph travels from its card to its page
+  experimental: { viewTransition: true },
   images: {
     // The sample photographs are files in public/pets, at most 1,600 pixels
     // wide. A photograph a visitor adds never comes through here: it is made

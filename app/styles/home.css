@@ -1,227 +1,755 @@
-/* The front page. */
+/* The front page, read from the top: the film, one sentence, the index of
+   open notices, one finding, the poster, the notices that ended well, and the
+   guides. */
 
 @layer components {
-  /* ---------- The lead: what this is, and the board beside it ---------- */
-  .hero {
+  /* ---------- The cover ---------- */
+  .cover {
+    position: relative;
+    isolation: isolate;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 3.5rem);
-    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem);
+    align-items: end;
+    min-height: 100svh;
+    /* the masthead lies over the film */
+    margin-top: calc(var(--mast) * -1);
+    padding-top: calc(var(--mast) + 1.5rem);
+    overflow: clip;
+    background: var(--film-shade);
+    color: var(--on-film);
+    --focus: var(--on-film);
   }
-  .hero + .section {
-    padding-top: clamp(0.5rem, 1.5vw, 2rem);
+  /* the frame is set wider than the window, which moves the cat to the right and leaves the left of it for the lettering */
+  .cover__film {
+    position: absolute;
+    inset: 0 -14% 0 0;
+    z-index: -2;
   }
-  .hero h1 {
-    font-size: var(--t-hero);
-    line-height: 0.95;
+  .cover__film img,
+  .cover__film video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* the cat sits right of the middle; keep her there when the window crops the sides */
+    object-position: 50% 38%;
   }
-  .hero__lede {
-    margin-top: 1.5rem;
-    max-width: 29rem;
+  .cover__film video {
+    opacity: 0;
+    transition: opacity 700ms ease;
+  }
+  .cover:not([data-film='still']) .cover__film video {
+    opacity: 1;
+  }
+  /* shade where the lettering is: the left of the frame, its foot, and under the masthead */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, color-mix(in oklab, var(--film-shade) 64%, transparent) 0%, color-mix(in oklab, var(--film-shade) 30%, transparent) 30%, transparent 54%),
+      linear-gradient(0deg, color-mix(in oklab, var(--film-shade) 46%, transparent) 0%, transparent 32%),
+      linear-gradient(180deg, color-mix(in oklab, var(--film-shade) 38%, transparent) 0%, transparent 20%);
+  }
+  .cover__in {
+    display: grid;
+    gap: clamp(1.25rem, 2.2vw, 2rem);
+    padding-bottom: clamp(2rem, 5vw, 4.5rem);
+  }
+  .cover__title {
+    font-size: var(--t-mega);
+    line-height: 0.84;
+    letter-spacing: -0.034em;
+  }
+  /* each line is a slot its words come up into */
+  .cover__line {
+    display: block;
+    overflow: clip;
+    margin-bottom: -0.1em;
+    padding-bottom: 0.14em;
+  }
+  .cover__line > span {
+    display: block;
+  }
+  .cover__lede {
+    max-width: 26.5rem;
     font-size: var(--t-lede);
     line-height: 1.5;
-    color: var(--ink-2);
   }
-  .hero__acts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2rem;
-  }
-  .hero__acts .btn {
-    flex: 1 1 9.5rem;
-    min-height: 3.25rem;
-  }
-  .legend {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 1.25rem;
-    margin-top: 2.25rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-  }
-  .legend a {
-    display: grid;
-    gap: 0.125rem;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    padding-block: 0.25rem;
-    border-radius: var(--r-chip);
-    text-decoration: none;
-  }
-  .legend strong {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 2.125rem;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .legend span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9375rem;
-    line-height: 1.3;
-    white-space: nowrap;
-    color: var(--ink-2);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .legend a:hover span {
-      color: var(--ink);
-    }
-  }
-  .legend a:active span,
-  .rows__title a:active {
-    color: var(--ink);
-    opacity: 0.7;
-  }
-  @media (min-width: 30rem) {
-    .hero__acts .btn {
-      flex: 0 0 auto;
-    }
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1.75rem;
-    }
-  }
-  @media (min-width: 64rem) {
-    .hero {
-      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
-      align-items: center;
-    }
-  }
-
-  /* ---------- After a list: the way on ---------- */
-  .more {
-    display: flex;
-    margin-top: clamp(1.75rem, 4vw, 2.75rem);
-  }
-  .section--last {
-    padding-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  /* ---------- A band across the page, one step off the paper ---------- */
-  .band {
-    padding-block: clamp(3rem, 7vw, 6rem);
-    background: var(--wash);
-  }
-  .posterband {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-  }
-  .posterband__sheet {
-    width: 100%;
-    max-width: 24rem;
-    margin-inline: auto;
-  }
-  .posterband h2 {
-    font-size: var(--t-h2);
-  }
-  .posterband__say > p {
-    margin-top: 1rem;
-    max-width: 34rem;
-    color: var(--ink-2);
-  }
-  .posterband__parts {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    max-width: 34rem;
-  }
-  .posterband__parts li {
-    color: var(--ink-2);
-  }
-  .posterband__parts strong {
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .posterband__say > .posterband__acts {
+  .cover__acts {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem 1.5rem;
-    margin-top: 1.75rem;
-    color: var(--ink);
+    gap: 0.5rem 2rem;
   }
-  .posterband__acts .link {
+  .cover__ctl {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(2rem, 5vw, 4.5rem);
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    cursor: pointer;
   }
-  @media (min-width: 52rem) {
-    .posterband {
-      grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+  .cover__ctl:active {
+    opacity: 0.65;
+  }
+  html.live .cover__film img,
+  html.live .cover__film video {
+    animation: cover-settle 14s var(--ease-slow) both;
+  }
+  html.live .cover__line > span {
+    animation: cover-line 1400ms var(--ease-slow) both;
+  }
+  html.live .cover__line:nth-child(1) > span {
+    animation-delay: 260ms;
+  }
+  html.live .cover__line:nth-child(2) > span {
+    animation-delay: 370ms;
+  }
+  html.live .cover__line:nth-child(3) > span {
+    animation-delay: 480ms;
+  }
+  html.live .cover__lede,
+  html.live .cover__acts,
+  html.live .cover__ctl {
+    animation: cover-rise 1200ms var(--ease-slow) 900ms both;
+  }
+  html.live .cover__acts {
+    animation-delay: 1000ms;
+  }
+  html.live .cover__ctl {
+    animation-delay: 1400ms;
+  }
+  @keyframes cover-settle {
+    from {
+      transform: scale(1.08);
     }
-    .posterband__sheet {
-      margin: 0;
+  }
+  @keyframes cover-line {
+    from {
+      transform: translate3d(0, 110%, 0);
+    }
+  }
+  @keyframes cover-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0);
+    }
+  }
+  /* as the page moves on, the film falls behind and the lettering goes first */
+  @supports (animation-timeline: view()) {
+    html.live .cover__film {
+      animation: cover-film-away linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+    html.live .cover__in {
+      animation: cover-words-away linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 80%;
+    }
+    @keyframes cover-film-away {
+      to {
+        transform: translate3d(0, 24%, 0);
+      }
+    }
+    @keyframes cover-words-away {
+      to {
+        opacity: 0;
+        transform: translate3d(0, -3rem, 0);
+      }
+    }
+  }
+  /* an upright window: the cat fills it, and the lettering stands on its foot */
+  @media (max-aspect-ratio: 3/4) {
+    .cover__film {
+      inset: 0;
+    }
+    .cover__film img,
+    .cover__film video {
+      object-position: 50% 40%;
+    }
+    .cover::before {
+      background:
+        linear-gradient(0deg, color-mix(in oklab, var(--film-shade) 86%, transparent) 0%, color-mix(in oklab, var(--film-shade) 62%, transparent) 34%, transparent 60%),
+        linear-gradient(180deg, color-mix(in oklab, var(--film-shade) 40%, transparent) 0%, transparent 18%);
+    }
+    .cover__title {
+      font-size: clamp(3.25rem, 16.5vw, 6rem);
+    }
+    .cover__ctl {
+      top: calc(var(--mast) + 0.5rem);
+      bottom: auto;
     }
   }
 
-  /* ---------- Rows: a list of things to read ---------- */
-  .rows {
+  /* ---------- One sentence ---------- */
+  .opening {
     display: grid;
-    border-top: 1px solid var(--line);
+    gap: 2rem;
+    padding-block: var(--air) 0;
   }
-  .rows li {
-    position: relative;
+  /* set like an entry in a dictionary */
+  .opening__word {
     display: grid;
-    gap: 0.5rem;
-    padding-block: 1.25rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .rows__when {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
     color: var(--ink-2);
   }
-  .rows__title {
-    font-size: 1.75rem;
-    line-height: 1.05;
+  .opening__word b {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.875rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
   }
-  .rows__title a {
+  .opening__say {
+    max-width: 22em;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--t-say);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  .opening__say a {
+    color: var(--sig-ink, inherit);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    transition: text-decoration-color 200ms ease;
+  }
+  .opening__say a:active {
+    opacity: 0.7;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .opening__say a:hover {
+      text-decoration-color: transparent;
+    }
+  }
+  /* each word takes its ink as the sentence comes up the window */
+  @supports (animation-timeline: view()) {
+    html.live .opening__say {
+      view-timeline: --say block;
+    }
+    html.live .opening__w {
+      animation: word-in linear both;
+      animation-timeline: --say;
+      animation-range: cover calc(6% + var(--i) * 0.85%) cover calc(15% + var(--i) * 0.85%);
+    }
+    @keyframes word-in {
+      from {
+        color: var(--edge);
+      }
+    }
+  }
+  /* on a wide page both start a quarter of the way in, as long text does everywhere */
+  @media (min-width: 64rem) {
+    .opening {
+      gap: 2.5rem;
+    }
+    .opening__word,
+    .opening__say {
+      margin-left: 25%;
+    }
+  }
+
+  /* ---------- The index ---------- */
+  .board {
+    padding-top: var(--air);
+  }
+  .index {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .index__side h2 {
+    font-size: var(--t-h2);
+  }
+  .index__frame,
+  .index__note {
+    display: none;
+  }
+  .index__list li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.125rem 1.25rem;
+    padding-block: 0.75rem;
+  }
+  .index__thumb {
+    grid-row: 1 / span 2;
+    aspect-ratio: 4 / 5;
+    overflow: clip;
+    background: var(--wash);
+  }
+  .index__thumb img,
+  .index__shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .index__name {
+    align-self: end;
+    font-size: clamp(2rem, 8.6vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.022em;
+  }
+  .index__name a {
     text-decoration: none;
   }
-  .rows__title a::after {
+  /* the whole row is the link */
+  .index__name a::after {
     content: '';
     position: absolute;
     inset: 0;
   }
-  .rows p {
-    max-width: 38rem;
+  .index__name a:focus-visible {
+    outline: none;
+  }
+  .index__name a:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .index__name a:active {
+    opacity: 0.7;
+  }
+  .index__meta {
+    align-self: start;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
     color: var(--ink-2);
   }
-  .rows__min {
+  .index__all {
+    margin-top: 1.5rem;
+  }
+  @media (min-width: 64rem) {
+    .index {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 0 calc(100% / 12);
+      align-items: start;
+    }
+    .index__side {
+      position: sticky;
+      top: calc(var(--mast) + 2rem);
+      display: grid;
+      gap: 1.75rem;
+    }
+    .index__frame {
+      position: relative;
+      display: block;
+      aspect-ratio: 4 / 5;
+      max-height: calc(100svh - var(--mast) - 15rem);
+      width: 100%;
+      overflow: clip;
+      background: var(--wash);
+    }
+    .index__shot {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 620ms ease;
+    }
+    .index__shot img {
+      transform: scale(1.07);
+      transition: transform 1600ms var(--ease-slow);
+    }
+    .index__shot[data-on] {
+      opacity: 1;
+    }
+    .index__shot[data-on] img {
+      transform: none;
+    }
+    .index__note {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      min-height: 3em;
+      max-width: 30rem;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: var(--ink-2);
+    }
+    .index__main {
+      /* the names begin level with the photograph, under the heading */
+      padding-top: calc(var(--t-h2) + 1.25rem);
+    }
+    .index__thumb {
+      display: none;
+    }
+    .index__list li {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: 0 2rem;
+      padding-block: clamp(0.75rem, 1.7vw, 1.75rem);
+    }
+    /* the name being looked at is in full ink; the others wait */
+    .index__name {
+      font-size: clamp(2.75rem, 5.2vw, 5.25rem);
+      color: var(--edge);
+      transition: color 420ms ease;
+    }
+    .index__list li[data-on] .index__name {
+      color: var(--ink);
+    }
+    /* an animal nobody has named yet is described, a size down */
+    .index__list li[data-plain] .index__name {
+      font-size: clamp(1.875rem, 3.3vw, 3.25rem);
+      line-height: 1.04;
+      letter-spacing: -0.016em;
+    }
+    .index__meta {
+      display: grid;
+      justify-items: end;
+      gap: 0;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .index__all {
+      margin-top: 2.5rem;
+    }
+  }
+
+  /* ---------- One finding ---------- */
+  .fact {
+    margin-top: var(--air);
+  }
+  .fact__photo {
+    height: clamp(24rem, 82svh, 56rem);
+    overflow: clip;
+    background: var(--wash);
+  }
+  .fact__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* the photograph is taller than its window, and passes behind it as the page moves */
+  @supports (animation-timeline: view()) {
+    html.live .fact__photo img {
+      height: 126%;
+      animation: fact-drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    @keyframes fact-drift {
+      from {
+        transform: translate3d(0, -20.6%, 0);
+      }
+    }
+  }
+  /* a page of paper laid over the photograph's lower corner */
+  .fact__card {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+    width: min(100%, 46rem);
+    margin-top: clamp(-9rem, -9vw, -3rem);
+    padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem) 0 0;
+    background: var(--paper);
+  }
+  .fact__card::before {
+    content: '';
+    position: absolute;
+    inset: 0 100% 0 auto;
+    width: 100vw;
+    background: var(--paper);
+  }
+  .fact__card h2 {
+    font-size: clamp(1.9375rem, 3.5vw, 3.375rem);
+    line-height: 1.04;
+    text-wrap: pretty;
+  }
+  .fact__card p {
+    max-width: 33rem;
     color: var(--ink-2);
+  }
+
+  /* ---------- The poster ---------- */
+  .band {
+    margin-top: clamp(4rem, 8vw, 7.5rem);
+    padding-block: var(--air);
+    overflow: clip;
+    background: var(--wash);
+  }
+  .printed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(3rem, 7vw, 5rem);
+  }
+  .printed__sheet {
+    justify-self: center;
+    width: min(100%, 30rem);
+    rotate: -2.2deg;
+    box-shadow: var(--shadow);
+  }
+  .printed__say h2 {
+    font-size: var(--t-h2);
+  }
+  .printed__say > p:not(.printed__acts) {
+    margin-top: 1.75rem;
+    max-width: 32rem;
+    font-size: var(--t-lede);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .printed__acts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 2rem;
+    margin-top: 2.25rem;
+  }
+  @media (min-width: 60rem) {
+    .printed {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: calc(100% / 12);
+    }
+  }
+
+  /* ---------- Home again ---------- */
+  .again {
+    padding-top: var(--air);
+  }
+  .again__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .again__head h2 {
+    font-size: var(--t-h2);
+  }
+  .again__head p {
+    max-width: 30rem;
+    font-size: var(--t-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  /* on a narrow screen, a row to push sideways */
+  .prints {
+    display: flex;
+    gap: 1.25rem;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .prints li {
+    position: relative;
+    flex: 0 0 min(76%, 20rem);
+    display: grid;
+    align-content: start;
+    gap: 0.25rem;
+    scroll-snap-align: start;
+  }
+  .prints__photo {
+    aspect-ratio: 4 / 5;
+    margin-bottom: 0.75rem;
+    overflow: clip;
+    background: var(--wash);
+  }
+  .prints__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .prints h3 {
+    font-size: var(--t-h3);
+  }
+  .prints h3 a {
+    text-decoration: none;
+  }
+  .prints h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .prints h3 a:focus-visible {
+    outline: none;
+  }
+  .prints h3 a:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
+  }
+  .prints h3 a:active {
+    opacity: 0.7;
+  }
+  .prints__after {
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+  .prints__note {
+    max-width: 24rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  /* with room, prints of different sizes, set down at different heights */
+  @media (min-width: 48rem) {
+    .prints {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+      gap: clamp(3rem, 6vw, 5.5rem) clamp(1rem, 2vw, 2rem);
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+    }
+    .prints li:nth-child(1) {
+      grid-column: 1 / span 4;
+    }
+    .prints li:nth-child(2) {
+      grid-column: 6 / span 3;
+      margin-top: clamp(4rem, 10vw, 10rem);
+    }
+    .prints li:nth-child(2) .prints__photo {
+      aspect-ratio: 1;
+    }
+    .prints li:nth-child(3) {
+      grid-column: 10 / span 3;
+      margin-top: clamp(1rem, 2.5vw, 2.5rem);
+    }
+    .prints li:nth-child(4) {
+      grid-column: 3 / span 5;
+    }
+    .prints li:nth-child(4) .prints__photo {
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  /* ---------- The guides ---------- */
+  .reading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4rem);
+    padding-block: var(--air);
+  }
+  .reading__head {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+  }
+  .reading__head h2 {
+    font-size: var(--t-h2);
+  }
+  .reading__head p {
+    max-width: 26rem;
+    color: var(--ink-2);
+  }
+  .reads {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 4.5vw, 4rem) clamp(2rem, 4vw, 4rem);
+  }
+  .reads li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+  }
+  .reads__title {
+    font-size: clamp(1.8125rem, 2.5vw, 2.375rem);
+    line-height: 1.04;
+    letter-spacing: -0.014em;
+  }
+  .reads__title a {
+    text-decoration: none;
+  }
+  /* the title, what it says and how long it takes are one thing to press */
+  .reads__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .reads__title a:focus-visible {
+    outline: none;
+  }
+  .reads__title a:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 6px;
+  }
+  /* a rule is drawn under the title, line by line */
+  .reads__title a > span {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 520ms var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
-    .rows li:hover .rows__title a {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-      text-underline-offset: 0.16em;
-      text-decoration-color: var(--sig);
+    .reads li:hover .reads__title a > span {
+      background-size: 100% 1px;
     }
   }
-  @media (min-width: 44rem) {
-    .rows li {
-      grid-template-columns: minmax(0, 1fr) auto;
-      column-gap: 2rem;
+  .reads__title a:active {
+    opacity: 0.7;
+  }
+  .reads__lede {
+    max-width: 30rem;
+    color: var(--ink-2);
+  }
+  .reads__min {
+    font-weight: 500;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 40rem) {
+    .reads {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .rows__min {
-      grid-column: 2;
-      grid-row: 2;
-      align-self: center;
+  }
+  /* the guides' own page has the whole width: three to a row */
+  @media (min-width: 72rem) {
+    .guides .reads {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .reading {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      gap: 0 calc(100% / 12);
+      align-items: start;
+    }
+    .reading__head {
+      position: sticky;
+      top: calc(var(--mast) + 2rem);
     }
   }
 }
 
-@media print {
-  .band {
-    background: none;
+@media (prefers-reduced-motion: reduce) {
+  .cover__film video,
+  .index__shot,
+  .index__shot img,
+  .index__name,
+  .reads__title a > span {
+    transition: none;
+  }
+  .index__shot img {
+    transform: none;
   }
 }

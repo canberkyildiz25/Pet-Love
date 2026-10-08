@@ -6,7 +6,7 @@ import { SIGNALS, type Signal } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'How it works',
-  description: 'What Yuva does with a notice, what the four colours mean, what on the site is an example, and where what you type is kept.',
+  description: 'What Yuva does with a notice, what the four kinds of notice are, what on the site is an example, and where what you type is kept.',
   alternates: { canonical: '/about/' },
 };
 
@@ -14,7 +14,7 @@ const KEY: { signal: Signal; says: string }[] = [
   { signal: 'lost', says: 'Missing now. The notice asks one thing of you: if you have seen them, say where and when.' },
   { signal: 'found', says: 'Somebody has the animal, or has seen it and could not hold it, and is looking for whoever lost it.' },
   { signal: 'adopt', says: 'Needs somewhere to live: off the street, out of a foster home, or because their person no longer can.' },
-  { signal: 'home', says: 'The notice is closed. Green replaces the other three: a closed notice is green whatever it was before.' },
+  { signal: 'home', says: 'The notice is closed, whatever it was before. It stays readable, with a line on how it ended.' },
 ];
 
 export default function About() {
@@ -37,7 +37,7 @@ export default function About() {
         </p>
         <p>When the animal is home, whoever posted the notice closes it with a line about how it ended. Closed notices stay readable, because how one search ended is useful to the next.</p>
 
-        <h2>The four signals</h2>
+        <h2>The four kinds of notice</h2>
         <dl className="key">
           {KEY.map(({ signal, says }) => (
             <div key={signal} data-signal={signal}>
@@ -48,7 +48,7 @@ export default function About() {
             </div>
           ))}
         </dl>
-        <p>A colour is never the only sign. Every chip carries its word, and the board spells it out.</p>
+        <p>Only a lost notice is set in red, the colour of the word on a street poster. Colour is never the only sign: every notice says what it is in words.</p>
 
         <h2>What is real here, and what is not</h2>
         <p>
