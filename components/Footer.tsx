@@ -18,8 +18,9 @@ function flip() {
 }
 
 /* Pages where the visitor is already in the middle of doing what the back
-   cover asks for, or is holding a sheet to print. */
-const BUSY = /^\/(post|sign-in|join|me)\/|\/poster\/$/;
+   cover asks for, or is holding a sheet to print. A page the server makes on
+   request is given its address without the closing slash, so both are read. */
+const BUSY = /^\/(post|sign-in|join|me)\/?$|\/poster\/?$/;
 
 /** The back cover: what the site is for, said once more, and under it the
     small print. */

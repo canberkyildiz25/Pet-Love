@@ -15,7 +15,8 @@ const KINDS: { kind: Kind; label: string }[] = [
 
 /** The three kinds of notice, each with how many are open, and the guides. */
 function Links({ onGo }: { onGo?: () => void }) {
-  const path = usePathname();
+  // with its closing slash, whichever way the server was given it
+  const path = usePathname().replace(/\/?$/, '/');
   const counts = count(useNotices());
 
   return (
